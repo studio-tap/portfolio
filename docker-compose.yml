@@ -9,4 +9,4 @@ services:
       - "3000:3000"
     volumes:
       - ./src/app:/app
-    command: bash
+    command: npm run dev

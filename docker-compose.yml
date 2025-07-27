@@ -8,5 +8,5 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./src/app:/app
+      - ./src:/app
     command: npm run dev

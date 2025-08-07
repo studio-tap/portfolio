@@ -1,4 +1,3 @@
-
 # Use the official Next.js image as the base image
 FROM node:20-alpine
 

@@ -1,17 +1,21 @@
 import type { Metadata } from "next";
-
-
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const plemolJP = localFont({
+  src: [
+    {
+      path: '../../public/fonts/PlemolJP_NF_v3.0.0/PlemolJPConsole_NF/PlemolJPConsoleNF-Regular.ttf',
+      weight: 'normal',
+      style: 'normal',
+    },
+    {
+      path: '../../public/fonts/PlemolJP_NF_v3.0.0/PlemolJPConsole_NF/PlemolJPConsoleNF-Bold.ttf',
+      weight: 'bold',
+      style: 'normal',
+    },
+  ],
+  variable: "--font-plemol-jp",
 });
 
 export const metadata: Metadata = {
@@ -25,10 +29,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <html lang="ja">
+      <body className={`${plemolJP.variable} antialiased`}>
         {children}
       </body>
     </html>

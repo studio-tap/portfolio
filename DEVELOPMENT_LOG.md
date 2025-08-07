@@ -87,3 +87,13 @@ Next.jsのWelcomeページがブラウザに表示されるまでのロジック
 一連の修正とイメージの再ビルド (`docker-compose up -d --build`) を経て、開発サーバーは無事に起動した。
 
 続いて、`git push`ができない問題を解決。`git remote -v`でリモートリポジトリの設定に問題がないことを確認した後、`git push`を再試行したところ、認証情報の入力を求められた。これを完了させることで、無事にリモートリポジトリへのプッシュが成功した。
+
+### フォントの選定と適用、不要ファイルの削除
+
+フォント比較ページ (`/app/lab/font/page.tsx`) を用いて、複数のコーディングフォントを比較検討した。当初、`page.tsx`の文字列定義やクライアントコンポーネントの指定に関するエラーが発生したが、これらを修正し、フォント比較ページを正常に表示できるようになった。
+
+比較の結果、`PlemolJP Console NF`をサイト全体のフォントとして採用することを決定した。これに伴い、不要となったフォント比較ページ (`/app/lab`) および、`HackGen`、`Moralerspace`の各フォントファイル (`src/public/fonts`配下) をプロジェクトから削除した。
+
+サイト全体へのフォント適用のため、`src/app/layout.tsx`を修正。`next/font/local`を使用して`PlemolJP Console NF`のRegularとBoldを読み込み、`<body>`タグに適用するように変更した。これにより、サイト全体のフォントが`PlemolJP Console NF`に統一された。
+
+最後に、`globals.css`を修正し、`--font-plemol-jp`というCSS変数を`body`の`font-family`として適用する予定である。

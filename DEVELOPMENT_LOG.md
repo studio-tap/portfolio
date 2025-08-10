@@ -97,3 +97,20 @@ Next.jsのWelcomeページがブラウザに表示されるまでのロジック
 サイト全体へのフォント適用のため、`src/app/layout.tsx`を修正。`next/font/local`を使用して`PlemolJP Console NF`のRegularとBoldを読み込み、`<body>`タグに適用するように変更した。これにより、サイト全体のフォントが`PlemolJP Console NF`に統一された。
 
 最後に、`globals.css`を修正し、`--font-plemol-jp`というCSS変数を`body`の`font-family`として適用する予定である。
+
+## 2025-08-10
+
+- Next.jsプロジェクトの共通ヘッダーを作成。
+  - `src/components/Header.tsx` を作成し、`src/app/layout.tsx` に配置。
+  - 開発サーバーで発生したハイドレーションエラーを `suppressHydrationWarning` を追加して修正。
+- ヘッダーコンポーネントのリファクタリングを実施。
+  - ナビゲーションリンクを `src/components/HeaderNavigationItem.tsx` としてコンポーネント化。
+  - `<a>` タグをNext.jsの `<Link>` コンポーネントに置き換え。
+- TypeScriptの型定義を強化。
+  - `React.FC` や `JSX.Element`、`React.ReactElement`、`React.ReactNode` の違いと使い分けについて議論。
+  - コンポーネントの返り値の型を `React.ReactElement` に統一。
+  - `props` やデータ構造に型を付与。
+  - `default export` から `named export` に変更。
+- JSXの型解決エラー (`JSX.IntrinsicElements` が見つからない) を修正。
+  - 原因が `tsconfig.json` の `"jsx": "preserve"` 設定下での型定義の読み込み不足にあることを特定。
+  - `import React from 'react';` をコンポーネントファイルに追加することで解決。

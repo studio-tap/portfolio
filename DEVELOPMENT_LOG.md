@@ -58,7 +58,7 @@ Dockerを使用してNext.jsの開発環境を構築した。`docker-compose.yml
 ### Next.js App Routerの基本分析
 Next.jsのWelcomeページがブラウザに表示されるまでのロジックとレンダリングの仕組みを分析した。`src/app/layout.tsx`がアプリケーション全体の骨格とメタデータを定義し、`src/app/page.tsx`がルートURLのコンテンツを定義していることを確認した。Next.jsがこれらをサーバーサイドでレンダリングし、HTMLとしてブラウザに送信するプロセスを理解した。
 
-また、Next.js App Routerにおけるルーティングとレイアウトの概念について深く掘り下げた。具体的には、`layout.tsx`のネスト、`template.tsx`との違い、`page.tsx`の役割、フォルダ名によるルーティング定義、そしてグループルートによる共通レイアウトの適用方法について理解を深めた。
+また、Next.js App Routerにおけるルーティングとレイアウトの概念について深く掘り下げた。具体的には、`layout.tsx`のネスト、`template.tsx`との違い、`page.tsx`の役割、フォルダ名によるルーティング定義、そしてグループルートによる共通レイアウトの適用方法について理解を理解した。最後に、`Metadata`のような型と`Link`のようなランタイム値のインポートの違い、そして共通インポートをまとめるプラクティスについて議論した。
 
 さらに、`layout.tsx`のインポートブロックについて詳細に分析し、`Metadata`が型定義であること、`Geist`や`Geist_Mono`がフォントローダー関数であることを確認した。Next.js App Routerでよく使われる型（`React.ReactNode`, `LayoutProps`など）についても理解を深めた。最後に、`Metadata`のような型と`Link`のようなランタイム値のインポートの違い、そして共通インポートをまとめるプラクティスについて議論した。
 
@@ -114,3 +114,44 @@ Next.jsのWelcomeページがブラウザに表示されるまでのロジック
 - JSXの型解決エラー (`JSX.IntrinsicElements` が見つからない) を修正。
   - 原因が `tsconfig.json` の `"jsx": "preserve"` 設定下での型定義の読み込み不足にあることを特定。
   - `import React from 'react';` をコンポーネントファイルに追加することで解決。
+
+2025-08-11: Docker環境とTailwind CSSのセットアップ、およびテーマ切り替えUIの調整
+
+**1. Docker環境の起動問題と解決**
+*   **問題**: `docker-compose up` でNext.jsコンテナが起動しない。ログに `sh: next: not found` エラー。
+*   **原因**:
+    *   `docker/nextjs/Dockerfile` 内の `RUN npm install` がコメントアウトされていた。
+    *   `Dockerfile` の `COPY` コマンドのパスが不正確だった (`COPY package.json ...` となっていたが、`src/package.json` が正しいパス)。
+    *   `docker-compose.yml` の `volumes` 設定で、`node_modules` がホストのコードマウントで上書きされてしまう問題。
+*   **解決**:
+    *   `Dockerfile` を修正し、`RUN npm install` のコメントアウトを解除し、`COPY src/package.json src/package-lock.json* ./` に変更。
+    *   `docker-compose.yml` の `volumes` に `- /app/node_modules` を追加し、コンテナ内の `node_modules` を独立したボリュームとして管理。
+    *   `docker-compose down --rmi all -v` で既存のコンテナ、イメージ、ボリュームを完全に削除し、`docker-compose up -d --build` で再構築。
+
+**2. Tailwind CSSのユーティリティクラスが機能しない問題**
+*   **問題**: `text-xl`, `mx-4` などのTailwindユーティリティクラスが適用されない。アイコンやフォントも表示されない。
+*   **初期調査と誤ったアプローチ**:
+    *   `tailwind.config.js` の `content` パス、`postcss.config.mjs` の設定、キャッシュクリアなどを試行。
+    *   `postcss.config.mjs` に `autoprefixer: {}` を追加したが、`autoprefixer` がインストールされておらずビルドエラーが発生。これは私の誤った判断によるもの。
+    *   `globals.css` から `body` の `font-family` 定義を削除したことで、フォントとアイコンの表示問題が発生。
+*   **根本原因の特定**:
+    *   `docker-compose logs` で `warn - No utility classes were detected` の警告を確認。Tailwindがクラスを検出できていないことが判明。
+    *   `package.json` を確認した結果、Tailwind CSS v4 (ベータ版) を使用していることが判明。Next.js 15 との組み合わせで不安定な挙動を示している可能性が高いと推測。
+*   **解決**:
+    *   **Tailwind CSS v3 へのダウングレード**:
+        *   `src/package.json` を修正し、`"tailwindcss": "^3"`, `"postcss": "^8"`, `"autoprefixer": "^10"` を追加し、`"@tailwindcss/postcss"` を削除。
+        *   `src/postcss.config.mjs` を修正し、Tailwind CSS v3 向けの `plugins: { tailwindcss: {}, autoprefixer: {} }` に変更。
+    *   **`tailwind.config.js` の `content` パスの最適化**:
+        *   `src/tailwind.config.js` を修正し、`content` パスを `['./app/**/*.{js,ts,jsx,tsx,mdx}', './components/**/*.{js,ts,jsx,tsx,mdx}']` に変更。これにより、Tailwindがソースファイルを正しくスキャンできるようになった。
+    *   **`globals.css` のフォント設定の復元**:
+        *   `src/app/globals.css` に `body { font-family: var(--font-plemol-jp), monospace; }` を含む `@layer base` を復元し、フォントとアイコンの表示問題を解決。
+    *   **徹底的なキャッシュクリアと再構築**:
+        *   各ステップで `rm -rf node_modules`, `rm -f package-lock.json`, `npm install` (ホスト側) を実行。
+        *   `docker-compose down --rmi all -v`, `rm -rf src/.next`, `docker-compose up -d --build` を実行し、Docker環境を完全にクリーンアップし再構築。
+
+**3. テーマ切り替えUIの調整とコードの整理**
+*   **ヘッダーの簡略化**: `src/components/Header.tsx` からナビゲーションやタイトルを削除し、`ThemeSwitcher` のみを表示するように修正。
+*   **`page.tsx` のクリーンアップ**: 不要なテキストを削除し、空の `main` タグのみを残す。
+*   **`ThemeSwitcher.tsx` のロジック一時削除**: UIのレイアウト確認のため、テーマ切り替えロジックをコメントアウト。
+*   **アイコンコンポーネントの記述統一**: `SunIcon.tsx`, `MoonIcon.tsx` を分割代入形式に統一。
+*   **`ThemeIcon.tsx` のクラス修正**: `theme-icon-common-style` クラスを削除し、`IconBase` が親のスタイルを継承するように修正。

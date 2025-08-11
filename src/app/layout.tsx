@@ -31,7 +31,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body className={`${plemolJP.variable} antialiased`} suppressHydrationWarning>
+      <body className={`${plemolJP.variable} antialiased bg-background-light text-foreground-light dark:bg-background-dark dark:text-foreground-dark`} suppressHydrationWarning>
         <Header />
         {children}
       </body>

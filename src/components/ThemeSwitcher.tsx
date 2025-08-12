@@ -1,37 +1,36 @@
 "use client";
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ToggleSwitch } from './ToggleSwitch';
 import { SunIcon } from './icons/SunIcon';
 import { MoonIcon } from './icons/MoonIcon';
 
 export const ThemeSwitcher = (): React.ReactElement => {
-  // ロジックは一時的にコメントアウト
-  // const [isDarkMode, setIsDarkMode] = useState(false);
-  //
-  // useEffect(() => {
-  //   if (isDarkMode) {
-  //     document.documentElement.classList.add('dark');
-  //   } else {
-  //     document.documentElement.classList.remove('dark');
-  //   }
-  // }, [isDarkMode]);
-  //
-  // const handleToggleChange = (checked: boolean) => {
-  //   setIsDarkMode(checked);
-  //   console.log('Theme toggled to:', checked ? 'dark' : 'light');
-  // };
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isDarkMode]);
+
+  const handleToggleChange = (checked: boolean) => {
+    setIsDarkMode(checked);
+    console.log('Theme toggled to:', checked ? 'dark' : 'light');
+  };
 
   return (
-    <div className="c-themeSwitcher flex items-center">
-      <SunIcon/>
+    <div className="flex items-center space-x-2">
+      <SunIcon className="text-orange dark:text-inactive" />
 
       <ToggleSwitch
-        checked={false} // 常にOFFの状態
-        onChange={() => {}} // 何もしない
+        checked={isDarkMode}
+        onChange={handleToggleChange}
       />
 
-      <MoonIcon/>
+      <MoonIcon className="text-inactive dark:text-navy" />
     </div>
   );
 };

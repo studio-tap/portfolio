@@ -155,3 +155,11 @@ Next.jsのWelcomeページがブラウザに表示されるまでのロジック
 *   **`ThemeSwitcher.tsx` のロジック一時削除**: UIのレイアウト確認のため、テーマ切り替えロジックをコメントアウト。
 *   **アイコンコンポーネントの記述統一**: `SunIcon.tsx`, `MoonIcon.tsx` を分割代入形式に統一。
 *   **`ThemeIcon.tsx` のクラス修正**: `theme-icon-common-style` クラスを削除し、`IconBase` が親のスタイルを継承するように修正。
+
+## 2025-08-13: Gemini CLIアップデートとヘッダーナビゲーション機能追加、microCMSスキーマ定義
+
+*   **Gemini CLIのアップデート**: npm経由でのグローバルアップデートを実施。`usePathname` フック使用時のビルドエラー（`"use client"` ディレクティブの不足）を修正。
+*   **ヘッダーナビゲーション機能追加**: 
+    *   現在のページをアクティブ状態にするため、`HeaderNavigationItem.tsx` に `usePathname` を導入し、アクティブなリンクに `font-bold` を適用。
+    *   ホバー時に真ん中から伸びるアンダーラインアニメーションを `HeaderNavigationItem.tsx` に実装。
+*   **microCMSスキーマ定義**: `README.md` に作品（WORKS）のmicroCMS APIスキーマ（タイトル、説明、サムネイル、URL、GitHub URL、使用技術、公開日）を追記。

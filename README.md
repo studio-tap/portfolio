@@ -58,7 +58,14 @@
    - 各作品の個別記事ページ
 
 ### microCMS管理項目
-- 検討中
+- **作品（WORKS）**
+  - `title`: 作品タイトル (テキスト)
+  - `description`: 作品の説明 (リッチエディタまたはテキストエリア)
+  - `thumbnail`: サムネイル画像 (画像)
+  - `url`: 作品のURL (URL)
+  - `githubUrl`: GitHubリポジトリのURL (URL)
+  - `technologies`: 使用技術 (複数選択またはテキストリスト)
+  - `publishedAt`: 公開日 (日付)
 
 ### 補足
 - デザイン特化のWORKSページは別途作成予定

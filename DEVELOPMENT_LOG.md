@@ -163,3 +163,11 @@ Next.jsのWelcomeページがブラウザに表示されるまでのロジック
     *   現在のページをアクティブ状態にするため、`HeaderNavigationItem.tsx` に `usePathname` を導入し、アクティブなリンクに `font-bold` を適用。
     *   ホバー時に真ん中から伸びるアンダーラインアニメーションを `HeaderNavigationItem.tsx` に実装。
 *   **microCMSスキーマ定義**: `README.md` に作品（WORKS）のmicroCMS APIスキーマ（タイトル、説明、サムネイル、URL、GitHub URL、使用技術、公開日）を追記。
+
+## 2025-08-15: microCMS連携準備とスキーマ設計
+
+*   **IDE連携のセットアップ**: Gemini CLI Companion (VSCode拡張機能)との連携をセットアップし、正常に動作することを確認した。
+*   **microCMS連携の計画と設計**: ポートフォリオに作品一覧を表示するためのロードマップを作成し、`README.md`に記録した。
+*   **microCMSスキーマ設計**: `works` APIのスキーマ設計について詳細に議論し、フィールドの型、必須項目、バリデーションルールを決定した。
+*   **クリエイティブなブレインストーミング**: サービス名「STUDIO-TAP」の由来である「TAP」という言葉の意味を深掘りし、ロゴやブランドストーリーに繋がりうる複数の解釈を探求した。
+*   **次のステップ**: ユーザーがmicroCMSのAPI作成とダミーデータの投入を完了。次回の作業で`microcms-js-sdk`の導入から再開する。

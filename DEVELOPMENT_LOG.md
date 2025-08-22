@@ -199,3 +199,9 @@ DockerとVercelを併用した開発における、依存関係（npmパッケ�
     *   作業開始時に`git pull`で最新の`package.json`を取得後、`npm install`または`docker-compose build`を実行し、`node_modules`を同期させる。
 
 この方針により、開発環境と本番環境、および複数の開発マシン間での依存関係の整合性を保つ。
+
+### 2025-08-22 (午後)
+
+`microcms-js-sdk`のインストール後、開発環境のDockerイメージをビルドした際にネットワークエラー (`ECONNRESET`) が発生。
+`docker-compose build`を再試行しても解決しなかったため、Docker Desktopを再起動したところ、無事にビルドが成功した。
+これにより、開発環境の準備が全て整った。

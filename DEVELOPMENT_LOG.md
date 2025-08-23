@@ -205,3 +205,19 @@ DockerとVercelを併用した開発における、依存関係（npmパッケ�
 `microcms-js-sdk`のインストール後、開発環境のDockerイメージをビルドした際にネットワークエラー (`ECONNRESET`) が発生。
 `docker-compose build`を再試行しても解決しなかったため、Docker Desktopを再起動したところ、無事にビルドが成功した。
 これにより、開発環境の準備が全て整った。
+
+### 2025-08-22 (夕方)
+
+**現状の問題**
+- `docker-compose up`で起動したコンテナ内のNext.jsアプリケーションが、起動時にSWCパッケージをダウンロードしようとしてネットワークタイムアウト(`ConnectTimeoutError`)を起こし、クラッシュする。
+- これにより、`localhost:3000`にアクセスしても何も表示されない。
+- 原因は、現在の作業場所のインターネット接続が非常に不安定であることと特定。
+
+**次回の作業計画 (Next Action Plan)**
+1.  安定したネットワーク環境に移動する。
+2.  移動後、`docker-compose up -d --build` を実行し、コンテナの起動とSWCパッケージのダウンロードが正常に完了することを確認する。
+3.  `localhost:3000` にアクセスし、Next.jsのデフォルトページが表示されることを確認する。
+4.  上記が確認でき次第、`src/.env.local` ファイルを作成し、microCMSの認証情報を設定する。
+    - `MICROCMS_SERVICE_DOMAIN=...`
+    - `MICROCMS_API_KEY=...`
+5.  `src/lib/microcms.ts` を作成し、APIクライアントの実装を開始する。

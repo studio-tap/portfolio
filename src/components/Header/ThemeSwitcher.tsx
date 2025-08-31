@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { ToggleSwitch } from './ToggleSwitch';
-import { SunIcon } from './icons/SunIcon';
-import { MoonIcon } from './icons/MoonIcon';
+import { SunIcon } from '@/components/icons/SunIcon';
+import { MoonIcon } from '@/components/icons/MoonIcon';
 
 export const ThemeSwitcher = (): React.ReactElement => {
   const [isDarkMode, setIsDarkMode] = useState(false);

@@ -1,13 +1,17 @@
 import { getWorks } from "@/lib/microcms";
 import React from 'react';
+import { WorkCard } from "@/components/Work/WorkCard";
 
 export default async function Home(): Promise<React.ReactElement> {
   const data = await getWorks();
-  console.log(JSON.stringify(data, null, 2));
 
   return (
-    <main>
-      {/* Content will be added here later */}
+    <main className="p-4 md:p-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {data.contents.map((work) => (
+          <WorkCard key={work.id} work={work} />
+        ))}
+      </div>
     </main>
   );
 }

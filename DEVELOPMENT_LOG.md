@@ -115,7 +115,7 @@ Next.jsのWelcomeページがブラウザに表示されるまでのロジック
   - 原因が `tsconfig.json` の `"jsx": "preserve"` 設定下での型定義の読み込み不足にあることを特定。
   - `import React from 'react';` をコンポーネントファイルに追加することで解決。
 
-2025-08-11: Docker環境とTailwind CSSのセットアップ、およびテーマ切り替えUIの調整
+## 2025-08-11: Docker環境とTailwind CSSのセットアップ、およびテーマ切り替えUIの調整
 
 **1. Docker環境の起動問題と解決**
 *   **問題**: `docker-compose up` でNext.jsコンテナが起動しない。ログに `sh: next: not found` エラー。
@@ -142,7 +142,7 @@ Next.jsのWelcomeページがブラウザに表示されるまでのロジック
         *   `src/package.json` を修正し、`"tailwindcss": "^3"`, `"postcss": "^8"`, `"autoprefixer": "^10"` を追加し、`"@tailwindcss/postcss"` を削除。
         *   `src/postcss.config.mjs` を修正し、Tailwind CSS v3 向けの `plugins: { tailwindcss: {}, autoprefixer: {} }` に変更。
     *   **`tailwind.config.js` の `content` パスの最適化**:
-        *   `src/tailwind.config.js` を修正し、`content` パスを `['./app/**/*.{js,ts,jsx,tsx,mdx}', './components/**/*.{js,ts,jsx,tsx,mdx}']` に変更。これにより、Tailwindがソースファイルを正しくスキャンできるようになった。
+        *   `src/tailwind.config.js` を修正し、`content` パスを `["./app/**/*.{js,ts,jsx,tsx,mdx}", "./components/**/*.{js,ts,jsx,tsx,mdx}"]` に変更。これにより、Tailwindがソースファイルを正しくスキャンできるようになった。
     *   **`globals.css` のフォント設定の復元**:
         *   `src/app/globals.css` に `body { font-family: var(--font-plemol-jp), monospace; }` を含む `@layer base` を復元し、フォントとアイコンの表示問題を解決。
     *   **徹底的なキャッシュクリアと再構築**:
@@ -218,6 +218,16 @@ DockerとVercelを併用した開発における、依存関係（npmパッケ�
 2.  移動後、`docker-compose up -d --build` を実行し、コンテナの起動とSWCパッケージのダウンロードが正常に完了することを確認する。
 3.  `localhost:3000` にアクセスし、Next.jsのデフォルトページが表示されることを確認する。
 4.  上記が確認でき次第、`src/.env.local` ファイルを作成し、microCMSの認証情報を設定する。
-    - `MICROCMS_SERVICE_DOMAIN=...`
-    - `MICROCMS_API_KEY=...`
+    - `MICROCMS_SERVICE_DOMAIN=...
+    - `MICROCMS_API_KEY=...
 5.  `src/lib/microcms.ts` を作成し、APIクライアントの実装を開始する。
+
+## 2025-08-23: Dockerビルド時のネットワークエラー調査
+
+- **目的**: APIキーを設定し、Dockerコンテナのログでデータ取得を確認する。
+- **問題**: `docker compose logs` を確認したところ、コンテナ起動時にNext.jsが必要とするSWC依存関係のダウンロードに失敗していることが判明 (`ConnectTimeoutError`)。
+- **調査**:
+    - 当初の目的だった「.env.localの読み込み」は、ログ内の`Reload env: .env.local`という記述から正常に行われていることを確認。
+    - 問題を解決するため、`docker compose build`でイメージを再ビルドしたが、今度はビルドプロセス中の`npm install`がネットワークエラー (`ECONNRESET`) で失敗。
+- **原因特定**: ユーザーからの情報により、根本原因は速度制限下にあるスマホのテザリングを利用しており、ネットワーク接続が極めて低速かつ不安定であるためと特定。
+- **次のアクション**: 安定したネットワーク環境下で、再度`docker compose build`を実行する。そのため、一旦作業を中断する。

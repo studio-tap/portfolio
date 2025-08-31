@@ -30,7 +30,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ja">
+    <html lang="ja" suppressHydrationWarning>
       <body className={`${plemolJP.variable} antialiased bg-background-light text-foreground-light dark:bg-background-dark dark:text-foreground-dark`} suppressHydrationWarning>
         <Header />
         {children}

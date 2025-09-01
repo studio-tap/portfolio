@@ -264,3 +264,8 @@ DockerとVercelを併用した開発における、依存関係（npmパッケ�
 
 - **バグ修正**:
     - microCMSの作品データに「使用技術」が設定されていない場合に発生するランタイムエラーを修正。`WorkCardTechnologies.tsx`内で`Array.isArray`によるチェックを追加し、データが存在しない場合でも安全に表示できるようにした。
+
+- **Git/SSH認証問題の解決**:
+    - `git push` 時に `Permission denied (publickey)` エラーが発生。
+    - `ssh-keygen` で新しいSSHキーペアを生成し、`ssh-agent` と `ssh-add` でPCに登録。
+    - ローカルのキーとGitHubに登録済みのキーの指紋が異なることを突き止め、新しく生成した公開鍵をGitHubアカウントに登録することで、認証問題を解決し、正常にプッシュが完了した。

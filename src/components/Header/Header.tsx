@@ -1,4 +1,6 @@
 import React from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
 import { ThemeSwitcher } from './ThemeSwitcher';
 import { HeaderNav } from './HeaderNav';
 
@@ -9,13 +11,15 @@ type NavItem = {
 
 export const Header = (): React.ReactElement => {
   const navItems: NavItem[] = [
-    { href: '/projects', text: 'WORKS' },
+    { href: '/', text: 'WORKS' },
     { href: '/about', text: 'ABOUT' },
   ];
 
   return (
     <header className="flex justify-between items-center p-4">
-      <h1>My Portfolio</h1>
+      <Link href="/">
+        <Image src="/logo_1.png" alt="STUDIO-TAP Logo" width={120} height={40} />
+      </Link>
       <HeaderNav navItems={navItems} />
       <ThemeSwitcher />
     </header>

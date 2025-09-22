@@ -7,15 +7,39 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
+      fontSize: {
+        'xs': '0.75rem',    // 12px
+        's': '0.875rem',   // 14px
+        'm': '1rem',       // 16px
+        'l': '1.125rem',   // 18px
+        'xl': '1.25rem',   // 20px
+        '2xl': '1.5rem',   // 24px
+        '3xl': '1.875rem', // 30px
+      },
+      letterSpacing: {
+        'none': '0em',
+        'tight': '0.025em',
+        'normal': '0.05em',
+        'wide': '0.1em',
+        'wider': '0.2em',
+        'full': '1em', // 1文字分
+      },
+      lineHeight: {
+        'none': 1,
+        'tight': 1.25,
+        'normal': 1.5,
+        'relaxed': 1.75,
+        'loose': 2,
+      },
       colors: {
         // ライトモード/ダークモードの基本色
         background: {
-          light: '#ffffff',
-          dark: '#0a0a0a',
+          light: '#FFFFFF',
+          dark: '#0F0F0F',
         },
         foreground: {
-          light: '#171717',
-          dark: '#ededed',
+          light: '#000000',
+          dark: '#F0F0F0',
         },
         // テーマカラー
         orange: {

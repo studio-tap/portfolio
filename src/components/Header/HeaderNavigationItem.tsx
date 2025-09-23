@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { TrackingM } from '@/components/Tracking/TrackingM';
+import { Typography } from '@/components/Typography/Typography';
 
 type HeaderNavigationItemProps = {
   href: string;
@@ -23,9 +23,9 @@ export const HeaderNavigationItem = ({ href, text }: HeaderNavigationItemProps):
           ${isActive ? 'font-bold' : 'font-medium'}
         `}
       >
-        <TrackingM>
+        <Typography as="span" variant="body-normal">
           {text}
-        </TrackingM>
+        </Typography>
         <span
           className={`
             absolute bottom-0 left-1/2 transform -translate-x-1/2

@@ -6,19 +6,31 @@ const variants = {
 
 type Variant = keyof typeof variants;
 
-type TypographyProps = {
-  children: React.ReactNode;
-  as?: React.ElementType;
+
+type BaseTypographyProps<C extends React.ElementType> = {
+  as?: C;
   variant: Variant;
   className?: string;
+  children: React.ReactNode;
 };
 
-export const Typography = ({ as: Component = 'p', variant, children, className }: TypographyProps): React.ReactElement => {
+type TypographyProps<C extends React.ElementType> = BaseTypographyProps<C> &
+  Omit<React.ComponentPropsWithoutRef<C>, keyof BaseTypographyProps<C>>;
+
+export const Typography = <C extends React.ElementType = 'p'>({
+  as,
+  variant,
+  children,
+  className,
+  ...rest
+}: TypographyProps<C>): React.ReactElement => {
+  const Component = as || 'p';
   const variantClass = variants[variant];
 
   return (
-    <Component className={`${variantClass} ${className}`}>
+    <Component className={`${variantClass} ${className}`} {...rest}>
       {children}
     </Component>
   );
 };
+

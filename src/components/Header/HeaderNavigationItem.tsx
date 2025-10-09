@@ -16,16 +16,16 @@ export const HeaderNavigationItem = ({ href, text }: HeaderNavigationItemProps):
 
   return (
     <li>
-      <Link
+      <Typography
+        as={Link}
         href={href}
+        variant="header-nav"
         className={`
-          font-medium text-[1.5em] p-2 relative group
+          p-2 relative group
           ${isActive ? 'font-bold' : 'font-medium'}
         `}
       >
-        <Typography as="span" variant="body-normal">
-          {text}
-        </Typography>
+        {text}
         <span
           className={`
             absolute bottom-0 left-1/2 transform -translate-x-1/2
@@ -33,7 +33,7 @@ export const HeaderNavigationItem = ({ href, text }: HeaderNavigationItemProps):
             group-hover:w-full
           `}
         ></span>
-      </Link>
+      </Typography>
     </li>
   );
 };

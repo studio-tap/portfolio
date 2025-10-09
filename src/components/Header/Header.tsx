@@ -1,26 +1,18 @@
 import React from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { ThemeSwitcher } from './ThemeSwitcher';
 import { HeaderNav } from './HeaderNav';
-
-type NavItem = {
-  href: string;
-  text: string;
-};
+import { Typography } from '@/components/Typography/Typography';
 
 export const Header = (): React.ReactElement => {
-  const navItems: NavItem[] = [
-    { href: '/', text: 'WORKS' },
-    { href: '/about', text: 'ABOUT' },
-  ];
-
   return (
-    <header className="flex justify-between items-center p-4">
+    <header className="flex justify-between items-center p-4 border-b border-black">
       <Link href="/">
-        <Image src="/logo_1.png" alt="STUDIO-TAP Logo" width={120} height={40} />
+        <Typography as="h1" variant="logo" className="font-bold">
+          STUDIO-TAP
+        </Typography>
       </Link>
-      <HeaderNav navItems={navItems} />
+      <HeaderNav />
       <ThemeSwitcher />
     </header>
   );

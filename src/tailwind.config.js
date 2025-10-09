@@ -32,6 +32,10 @@ module.exports = {
         'loose': 2,
       },
       colors: {
+        transparent: 'transparent',
+        current: 'currentColor',
+        white: '#ffffff',
+        black: '#000000',
         // ライトモード/ダークモードの基本色
         background: {
           light: '#FFFFFF',
@@ -39,7 +43,7 @@ module.exports = {
         },
         foreground: {
           light: '#000000',
-          dark: '#F0F0F0',
+          dark: '#BFBFBF',
         },
         // テーマカラー
         orange: {

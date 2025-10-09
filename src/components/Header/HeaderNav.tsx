@@ -6,11 +6,12 @@ type NavItem = {
   text: string;
 };
 
-type HeaderNavProps = {
-  navItems: NavItem[];
-};
+export const HeaderNav = (): React.ReactElement => {
+  const navItems: NavItem[] = [
+    { href: '/', text: 'WORKS' },
+    { href: '/about', text: 'ABOUT' },
+  ];
 
-export const HeaderNav = ({ navItems }: HeaderNavProps): React.ReactElement => {
   return (
     <nav>
       <ul className="flex space-x-4">

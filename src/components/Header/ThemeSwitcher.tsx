@@ -22,10 +22,11 @@ export const ThemeSwitcher = (): React.ReactElement => {
   };
 
   return (
-    <div className="flex items-center space-x-2">
+    <div className="flex items-center">
       <SunIcon className="text-orange dark:text-inactive" />
 
       <ToggleSwitch
+        className='mx-2'
         checked={isDarkMode}
         onChange={handleToggleChange}
       />

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 import Link from 'next/link';
@@ -21,18 +21,12 @@ export const HeaderNavigationItem = ({ href, text }: HeaderNavigationItemProps):
         href={href}
         variant="header-nav"
         className={`
-          p-2 relative group
-          ${isActive ? 'font-bold' : 'font-medium'}
+          p-2
+          ${isActive ? 'font-bold pointer-events-none' : 'font-medium hover-opacity-strong'}
         `}
+        aria-disabled={isActive}
       >
         {text}
-        <span
-          className={`
-            absolute bottom-0 left-1/2 transform -translate-x-1/2
-            w-0 h-[2px] bg-current transition-all duration-300 ease-out
-            group-hover:w-full
-          `}
-        ></span>
       </Typography>
     </li>
   );

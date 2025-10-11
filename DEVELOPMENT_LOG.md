@@ -325,3 +325,22 @@ DockerとVercelを併用した開発における、依存関係（npmパッケ�
 
 - **ロゴの暫定対応**:
     - 未確定のロゴ画像を、一旦「STUDIO - TAP」というテキストに置き換えた。
+
+## 2025-10-09: ヘッダーナビゲーションのインタラクション改修
+
+- **ホバーエフェクトの変更**: 
+  - 従来のアンダーラインアニメーションを廃止し、透明度が変わるエフェクトに変更。
+  - 再利用性とデザインシステムとしての一貫性を高めるため、`tailwind.config.js`にプラグインを導入。
+  - `matchUtilities`を使い、`hover-opacity-{value}`という形式で、意図的に制限したバリエーション（`weak`, `medium`, `strong`）のみを使用できるように設計。
+  - 最終的に、ホバー時の透明度が50%になる`hover-opacity-strong`をナビゲーションリンクに適用した。
+
+- **アクティブリンクの挙動変更**:
+  - `usePathname`フックを利用して現在表示中のページを判定。
+  - アクティブなリンクには`pointer-events-none`を適用し、不要なクリックイベントを無効化。アクセシビリティ向上のため`aria-disabled`も追加した。
+
+## 2025-10-09 (Part 2): 共通レイアウトとABOUTページの作成
+
+- `/about` ルートに対応する `src/app/about/page.tsx` を作成。
+- サイト全体のメインコンテンツのレイアウトを共通化するため、`src/components/layout/MainContents.tsx` を作成。中央寄せ、最大幅、共通パディングを適用するラッパーコンポーネントとして実装。
+- トップページとABOUTページに `MainContents` を適用し、レイアウトを統一。
+- ヘッダーコンポーネントの `border-bottom` の色を、テーマ（ライト/ダーク）に応じて `foreground` の色に追従するように修正 (`border-foreground-light dark:border-foreground-dark`)。

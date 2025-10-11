@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+const plugin = require('tailwindcss/plugin');
+
 module.exports = {
   content: [
     './app/**/*.{js,ts,jsx,tsx,mdx}',
@@ -60,5 +62,25 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    plugin(function({ matchUtilities, theme }) {
+      matchUtilities(
+        {
+          'hover-opacity': (value) => ({
+            transition: 'opacity',
+            '&:hover': {
+              opacity: value,
+            },
+          }),
+        },
+        {
+          values: {
+            weak: '0.9',
+            medium: '0.7',
+            strong: '0.5',
+          }
+        }
+      );
+    })
+  ],
 }

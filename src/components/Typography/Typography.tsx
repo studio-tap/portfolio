@@ -1,9 +1,10 @@
 import React from 'react';
 
 const variants = {
-  'body-normal': 'text-m leading-normal tracking-normal',
-  'header-nav': 'text-2xl leading-none tracking-wide',
-  logo: 'text-l leading-none tracking-normal',
+  'body-normal': 'text-m leading-normal tracking-tight',
+  'header-nav': 'text-2xl leading-none tracking-none',
+  'logo': 'text-m leading-none tracking-none',
+  'about-title': 'text-l leading-loose tracking-none',
 };
 
 type Variant = keyof typeof variants;

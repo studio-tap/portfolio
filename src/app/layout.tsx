@@ -31,9 +31,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja" suppressHydrationWarning>
-      <body className={`${plemolJP.variable} antialiased bg-background-light text-foreground-light dark:bg-background-dark dark:text-foreground-dark`} suppressHydrationWarning>
-        <Header />
-        {children}
+      <body className={`${plemolJP.variable} antialiased`} suppressHydrationWarning>
+        <div className="bg-background-light text-foreground-light dark:bg-background-dark dark:text-foreground-dark flex flex-col min-h-screen">
+          <Header />
+          <main className="flex-1 flex flex-col">{children}</main>
+        </div>
       </body>
     </html>
   );

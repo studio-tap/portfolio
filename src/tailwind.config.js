@@ -49,13 +49,14 @@ module.exports = {
         },
         // テーマカラー
         orange: {
-          DEFAULT: '#f97316', // アイコンなどで使用
-          bg: '#fed7aa',      // トグルOFF時の背景
-          focus: '#fdba74',   // フォーカスリング
+          DEFAULT: '#FFAA55',
+          bg: '#FFD5AA',
+          focus: '#FFC68A',
         },
         navy: {
-          DEFAULT: '#6366f1', // アイコン、トグルON時の背景
-          focus: '#a5b4fc',   // フォーカスリング
+          DEFAULT: '#5599EE',
+          bg: '#AACCFF',
+          focus: '#88B8FF',
         },
         // その他
         inactive: '#9ca3af', // 非アクティブアイコン
@@ -63,7 +64,8 @@ module.exports = {
     },
   },
   plugins: [
-    plugin(function({ matchUtilities, theme }) {
+    plugin(function({ addComponents, matchUtilities, theme }) {
+      // │▌`hover-opacity-{value}` のような動的なユーティリティを作る設定
       matchUtilities(
         {
           'hover-opacity': (value) => ({
@@ -81,6 +83,18 @@ module.exports = {
           }
         }
       );
+
+      // │▌`.link-base` のような再利用可能なコンポーネントクラスを作る設定
+      addComponents({
+        '.link-base': {
+          fontWeight: theme('fontWeight.medium'),
+          color: theme('colors.blue.400'),
+          '&:hover': {
+            textDecoration: 'underline',
+            color: theme('colors.blue.300'),
+          },
+        }
+      });
     })
   ],
 }

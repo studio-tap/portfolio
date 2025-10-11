@@ -344,3 +344,20 @@ DockerとVercelを併用した開発における、依存関係（npmパッケ�
 - サイト全体のメインコンテンツのレイアウトを共通化するため、`src/components/layout/MainContents.tsx` を作成。中央寄せ、最大幅、共通パディングを適用するラッパーコンポーネントとして実装。
 - トップページとABOUTページに `MainContents` を適用し、レイアウトを統一。
 - ヘッダーコンポーネントの `border-bottom` の色を、テーマ（ライト/ダーク）に応じて `foreground` の色に追従するように修正 (`border-foreground-light dark:border-foreground-dark`)。
+
+## 2025-10-11
+
+- **Aboutページの機能拡充とリファクタリング**
+  - Next.jsのハイドレーションエラーを `suppressHydrationWarning` を用いて修正。
+  - スキルセットのリストをカテゴリ別に整理・整形。
+  - ページ下部に画像を表示するセクションを追加し、Flexboxを用いて画面下部まで広がるようにレイアウトを調整。
+  - 画像表示部分を `AboutImage` コンポーネントとして分離し、将来的な機能拡張（microCMS連携）のための `@todo` コメントを記載。
+
+- **UIコンポーネントの新規作成と改善**
+  - 任意のリンクに適用できる `CustomLink` コンポーネントを作成。
+  - 内部リンク用の `BaseLink` と、アイコン付きで別タブで開く外部リンク用の `ExternalLink` に機能を分離・リファクタリング。
+  - `tailwind.config.js` のプラグイン機能を活用し、リンクの共通スタイルを `.link-base` としてコンポーネントクラス化。
+
+- **カラーパレットの調整**
+  - `tailwind.config.js` で定義されているテーマカラー（orange, navy）を、数学的な調和を考慮した配色に再設計。
+  - `DEFAULT`, `bg`, `focus` の3色構成に統一。

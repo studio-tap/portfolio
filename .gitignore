@@ -32,7 +32,6 @@ next-env.d.ts
 
 # Local package files
 /package.json
-/package-lock.json
 
 # Temporary files
 /tmp

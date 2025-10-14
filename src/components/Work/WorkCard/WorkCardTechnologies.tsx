@@ -1,5 +1,6 @@
 import type { ReactElement } from 'react';
 import type { Technology } from '@/lib/microcms';
+import { Typography } from '@/components/Typography/Typography';
 
 type Props = {
   technologies: Technology[];
@@ -11,15 +12,17 @@ export const WorkCardTechnologies = ({ technologies }: Props): ReactElement | nu
   }
 
   return (
-    <div className="mt-6">
-      <h3 className="font-semibold text-lg">使用技術:</h3>
-      <ul className="flex flex-wrap gap-2 mt-2">
-        {technologies.map((tech) => (
-          <li key={tech.id} className="bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm">
-            {tech.name}
-          </li>
-        ))}
-      </ul>
-    </div>
+    <ul className="flex flex-wrap justify-end gap-2">
+      {technologies.map((tech) => (
+        <Typography
+          as="li"
+          key={tech.id}
+          variant="card-technology"
+          className="bg-gray-200 dark:bg-gray-700 rounded-full p-2"
+        >
+          {tech.name}
+        </Typography>
+      ))}
+    </ul>
   );
 };

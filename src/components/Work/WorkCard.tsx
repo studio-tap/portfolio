@@ -1,5 +1,7 @@
 import type { ReactElement } from 'react';
 import type { Work } from '@/lib/microcms';
+import { WorkCardCategory } from './WorkCard/WorkCardCategory';
+import { WorkCardRoles } from './WorkCard/WorkCardRoles';
 import { WorkCardTitle } from './WorkCard/WorkCardTitle';
 import { WorkCardThumbnail } from './WorkCard/WorkCardThumbnail';
 import { WorkCardDescription } from './WorkCard/WorkCardDescription';
@@ -12,14 +14,33 @@ type Props = {
 
 export const WorkCard = ({ work }: Props): ReactElement => {
   return (
-    <article className="border rounded-lg p-4 shadow-md flex flex-col h-full">
-      <WorkCardTitle title={work.title} />
-      <WorkCardThumbnail thumbnail={work.thumbnail} title={work.title} />
-      <div className="flex-grow">
-        <WorkCardDescription description={work.description} />
+    <article className="border-2 border-foreground-light dark:border-foreground-dark p-12 flex flex-col">
+      {/* 上部セクション */}
+      <div className="flex justify-between gap-4">
+        {/* 左側 */}
+        <div className="flex-grow">
+          <WorkCardCategory category={work.category} />
+          <WorkCardTitle title={work.title} />
+          <WorkCardRoles roles={work.roles} />
+        </div>
+        {/* 右側 */}
+        <div className="flex-shrink-0 w-full max-w-[12rem]">
+          <WorkCardTechnologies technologies={work.technologies} />
+        </div>
       </div>
-      <WorkCardTechnologies technologies={work.technologies} />
-      <WorkCardLink url={work.url} />
+
+      {/* 中部セクション */}
+      <div className="mt-12 mb-4">
+        <WorkCardThumbnail thumbnail={work.thumbnail} title={work.title} />
+      </div>
+
+      {/* 下部セクション */}
+      <div className="flex-grow flex flex-col justify-end gap-4">
+        <WorkCardDescription description={work.description} />
+        <div className="text-right">
+          <WorkCardLink url={work.url} />
+        </div>
+      </div>
     </article>
   );
 };

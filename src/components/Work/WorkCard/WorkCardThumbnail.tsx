@@ -1,5 +1,6 @@
 import type { ReactElement } from 'react';
 import type { MicroCMSImage } from 'microcms-js-sdk';
+import Image from 'next/image';
 
 type Props = {
   thumbnail?: MicroCMSImage;
@@ -12,12 +13,12 @@ export const WorkCardThumbnail = ({ thumbnail, title }: Props): ReactElement | n
   }
 
   return (
-    <img
+    <Image
       src={thumbnail.url}
-      alt={`${title}のサムネイル`}
+      alt={`サムネイル_${title}`}
       width={thumbnail.width}
       height={thumbnail.height}
-      className="my-4 rounded-md object-cover w-full"
+      className="object-cover w-full border-2"
     />
   );
 };

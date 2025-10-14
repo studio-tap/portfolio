@@ -1,14 +1,18 @@
 import type { ReactElement } from 'react';
 
 type Props = {
-  description: string;
+  description?: string;
 };
 
-export const WorkCardDescription = ({ description }: Props): ReactElement => {
+export const WorkCardDescription = ({ description }: Props): ReactElement | null => {
+  if (!description) {
+    return null;
+  }
+
   return (
     <div
       dangerouslySetInnerHTML={{ __html: description }}
-      className="prose mt-4"
+      className="prose dark:prose-invert"
     />
   );
 };

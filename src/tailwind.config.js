@@ -61,9 +61,21 @@ module.exports = {
         // その他
         inactive: '#9ca3af', // 非アクティブアイコン
       },
+      typography: ({ theme }) => ({
+        DEFAULT: {
+          css: {
+            p: {
+              fontSize: theme('fontSize.s'),
+              lineHeight: theme('lineHeight.normal'),
+              letterSpacing: theme('letterSpacing.tight'),
+            },
+          },
+        },
+      }),
     },
   },
   plugins: [
+    require('@tailwindcss/typography'),
     plugin(function({ addComponents, matchUtilities, theme }) {
       // │▌`hover-opacity-{value}` のような動的なユーティリティを作る設定
       matchUtilities(

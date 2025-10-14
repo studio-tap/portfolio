@@ -1,10 +1,12 @@
 import React from 'react';
 
 const variants = {
-  'body-normal': 'text-m leading-normal tracking-tight',
-  'header-nav': 'text-2xl leading-none tracking-none',
-  'logo': 'text-m leading-none tracking-none',
-  'about-title': 'text-l leading-loose tracking-none',
+  'body-normal': 'text-s leading-normal tracking-tight',
+  'header-nav': 'text-xl leading-none tracking-tight',
+  'logo-text': 'text-s leading-none tracking-none',
+  'about-title': 'text-m leading-loose tracking-tight',
+  'card-meta': 'text-s leading-normal tracking-tight',
+  'card-technology': 'text-xs leading-none tracking-none',
 };
 
 type Variant = keyof typeof variants;
@@ -17,10 +19,10 @@ type BaseTypographyProps<C extends React.ElementType> = {
   children: React.ReactNode;
 };
 
-type TypographyProps<C extends React.ElementType> = BaseTypographyProps<C> & 
+type TypographyProps<C extends React.ElementType> = BaseTypographyProps<C> &
   Omit<React.ComponentPropsWithoutRef<C>, keyof BaseTypographyProps<C>>;
 
-export const Typography = <C extends React.ElementType = 'p'>({ 
+export const Typography = <C extends React.ElementType = 'p'>({
   as,
   variant,
   children,

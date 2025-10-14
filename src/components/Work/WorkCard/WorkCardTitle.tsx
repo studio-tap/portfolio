@@ -1,9 +1,14 @@
 import type { ReactElement } from 'react';
+import { WorkCardMetaItem } from './WorkCardMetaItem';
 
 type Props = {
   title: string;
 };
 
 export const WorkCardTitle = ({ title }: Props): ReactElement => {
-  return <h2 className="text-2xl font-bold mb-2">{title}</h2>;
+  return (
+    <WorkCardMetaItem as="h2" className="font-bold">
+      {title}
+    </WorkCardMetaItem>
+  );
 };

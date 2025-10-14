@@ -26,7 +26,7 @@ export const ThemeSwitcher = (): React.ReactElement => {
       <SunIcon className="text-orange dark:text-inactive" />
 
       <ToggleSwitch
-        className='mx-2'
+        className='mx-1'
         checked={isDarkMode}
         onChange={handleToggleChange}
       />

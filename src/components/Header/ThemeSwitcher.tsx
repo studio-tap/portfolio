@@ -1,24 +1,29 @@
-"use client";
+'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useTheme } from 'next-themes';
 import { ToggleSwitch } from './ToggleSwitch';
 import { SunIcon } from '@/components/icons/SunIcon';
 import { MoonIcon } from '@/components/icons/MoonIcon';
 
 export const ThemeSwitcher = (): React.ReactElement => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const { setTheme, resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
+  // useEffect only runs on the client, so now we can show the UI
   useEffect(() => {
-    if (isDarkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [isDarkMode]);
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    // ハイドレーションエラーを防ぐため、マウントされるまでは何も表示しない
+    return <div className="w-[76px]" />; // 仮のスペーサー
+  }
+
+  const isDarkMode = resolvedTheme === 'dark';
 
   const handleToggleChange = (checked: boolean) => {
-    setIsDarkMode(checked);
-    console.log('Theme toggled to:', checked ? 'dark' : 'light');
+    setTheme(checked ? 'dark' : 'light');
   };
 
   return (

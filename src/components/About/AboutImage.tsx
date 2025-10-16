@@ -8,7 +8,7 @@ import aboutImg from '@/public/about.jpg';
  */
 export const AboutImage = (): React.ReactElement => {
   return (
-    <div className="relative flex-grow mt-12 min-h-[320px]">
+    <div className="relative flex-grow mt-12 min-h-[540px]">
       <Image
         src={aboutImg}
         alt=""

@@ -12,7 +12,7 @@ export const WorkCardLink = ({ url }: Props): ReactElement | null => {
   }
 
   return (
-    <Typography as={ExternalLink} href={url} variant="body-s" className="inline-block">
+    <Typography as={ExternalLink} href={url} variant="body-normal" className="inline-block">
       VIEW SITE
     </Typography>
   );

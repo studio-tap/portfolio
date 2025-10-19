@@ -1,4 +1,5 @@
 import React from 'react';
+import { clsx } from 'clsx';
 
 const variants = {
   'body-normal': 'text-s leading-normal tracking-tight',
@@ -14,7 +15,7 @@ type Variant = keyof typeof variants;
 
 type BaseTypographyProps<C extends React.ElementType> = {
   as?: C;
-  variant: Variant;
+  variant?: Variant;
   className?: string;
   children: React.ReactNode;
 };
@@ -24,7 +25,7 @@ type TypographyProps<C extends React.ElementType> = BaseTypographyProps<C> &
 
 export const Typography = <C extends React.ElementType = 'p'>({
   as,
-  variant,
+  variant = 'body-normal',
   children,
   className,
   ...rest
@@ -33,7 +34,7 @@ export const Typography = <C extends React.ElementType = 'p'>({
   const variantClass = variants[variant];
 
   return (
-    <Component className={[variantClass, className].filter(Boolean).join(' ')} {...rest}>
+    <Component className={clsx(variantClass, className)} {...rest}>
       {children}
     </Component>
   );

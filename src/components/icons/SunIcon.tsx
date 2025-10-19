@@ -3,12 +3,11 @@ import { ThemeIcon } from './ThemeIcon';
 
 type SunIconProps = {
   className?: string;
-  size?: string;
 };
 
-export const SunIcon = ({ className, size }: SunIconProps): React.ReactElement => {
+export const SunIcon = ({ className }: SunIconProps): React.ReactElement => {
   return (
-    <ThemeIcon className={`${className}`} size={size}>
+    <ThemeIcon className={`${className}`}>
       {''} {/* Nerd Font Unicode for fa-sun */}
     </ThemeIcon>
   );

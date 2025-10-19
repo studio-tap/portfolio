@@ -413,3 +413,18 @@ DockerとVercelを併用した開発における、依存関係（npmパッケ�
   - `Typography.tsx` のclassName結合ロジックを改善（`filter(Boolean)` で空文字列を除外）。
   - ダークモードの背景色を微調整（`#0F0F0F` → `#1F1F1F`）。
 
+- **Workコンポーネントの包括的なテスト作成**:
+  - Vitestを使用したテスト駆動開発の学習を目的に、Workディレクトリの全コンポーネントに対して単体テストと統合テストを作成。
+  - 単体テストとして以下の8ファイルを作成：
+    - `WorkCardMetaItem.test.tsx` (5テスト) - デフォルトpタグレンダリング、asプロパティ、必須クラス、追加className、バリアント適用のテスト
+    - `WorkCardCategory.test.tsx` (2テスト) - カテゴリ名表示、WorkCardMetaItem使用確認のテスト
+    - `WorkCardTitle.test.tsx` (3テスト) - タイトル表示、h2タグレンダリング、font-boldクラスのテスト
+    - `WorkCardRoles.test.tsx` (4テスト) - 全ロール表示、undefined/空配列ハンドリング、正しいカウントのテスト
+    - `WorkCardTechnologies.test.tsx` (5テスト) - 全技術名表示、空配列ハンドリング、正しいカウント、liタグ使用、背景色クラスのテスト
+    - `WorkCardThumbnail.test.tsx` (4テスト) - undefinedハンドリング、画像表示、altテキスト、必須クラスのテスト
+    - `WorkCardDescription.test.tsx` (5テスト) - undefined/空文字列ハンドリング、説明文表示、HTMLパース、proseクラスのテスト
+    - `WorkCardLink.test.tsx` (5テスト) - undefinedハンドリング、リンク表示、VIEW SITEテキスト、href属性、inline-blockクラスのテスト
+  - 統合テストとして `WorkCard.test.tsx` (5テスト) を作成 - 全情報の正しい表示、オプショナル項目のハンドリング、articleタグ、必須クラス、レスポンシブレイアウトのテスト
+  - 合計38テストを作成し、全てパスすることを確認。
+  - Next.jsの`Image`コンポーネントがURL最適化を行うため、直接的なURL比較テストを削除するなど、フレームワークの特性に応じた調整を実施。
+

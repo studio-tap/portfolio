@@ -3,12 +3,11 @@ import { ThemeIcon } from './ThemeIcon';
 
 type MoonIconProps = {
   className?: string;
-  size?: string;
 };
 
-export const MoonIcon = ({ className, size }: MoonIconProps): React.ReactElement => {
+export const MoonIcon = ({ className }: MoonIconProps): React.ReactElement => {
   return (
-    <ThemeIcon className={`${className}`} size={size}>
+    <ThemeIcon className={`${className}`}>
       {''} {/* Nerd Font Unicode for fa-moon */}
     </ThemeIcon>
   );

@@ -61,9 +61,56 @@ export const Header = (): React.ReactElement => {
 
       {/* SP Menu Overlay */}
       {isOpen && (
-        <div className="sp:hidden fixed inset-0 bg-background-light dark:bg-background-dark z-40 flex flex-col items-center justify-center gap-8">
-          <HeaderNav />
-          <ThemeSwitcher />
+        <div className="sp:hidden fixed inset-0 bg-background-light dark:bg-background-dark z-40 flex flex-col items-center justify-between py-12">
+          {/* Main Navigation */}
+          <div className="flex flex-col items-center gap-8 flex-1 justify-center">
+            <HeaderNav isMobile onLinkClick={() => setIsOpen(false)} />
+
+            {/* Contact Links */}
+            <div className="flex flex-col items-center gap-2 mt-4">
+              <Typography
+                as="a"
+                href="mailto:camphora@studio-tap.com"
+                variant="header-nav"
+                className="p-2 font-medium hover-opacity-strong"
+                onClick={() => setIsOpen(false)}
+              >
+                EMAIL
+              </Typography>
+              <Typography
+                as="a"
+                href="https://forms.gle/1iG7xoAD34fJ8hjy5"
+                target="_blank"
+                rel="noopener noreferrer"
+                variant="header-nav"
+                className="p-2 font-medium hover-opacity-strong"
+                onClick={() => setIsOpen(false)}
+              >
+                CONTACT FORM
+              </Typography>
+            </div>
+
+            {/* Theme Switcher */}
+            <div className="mt-4">
+              <ThemeSwitcher />
+            </div>
+          </div>
+
+          {/* Site Logo & Name */}
+          <div className="flex flex-col items-center gap-2">
+            {mounted && (
+              <Image
+                src={theme === 'dark' ? logoWhite : logoBlack}
+                alt="STUDIO - TAP Logo"
+                width={48}
+                height={48}
+                quality={100}
+              />
+            )}
+            <Typography as="p" variant="logo-text" className="font-bold">
+              STUDIO-TAP
+            </Typography>
+          </div>
         </div>
       )}
     </>

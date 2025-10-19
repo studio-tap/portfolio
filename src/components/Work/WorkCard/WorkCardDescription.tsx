@@ -1,4 +1,5 @@
 import type { ReactElement } from 'react';
+import parse from 'html-react-parser';
 
 type Props = {
   description?: string;
@@ -10,9 +11,8 @@ export const WorkCardDescription = ({ description }: Props): ReactElement | null
   }
 
   return (
-    <div
-      dangerouslySetInnerHTML={{ __html: description }}
-      className="prose dark:prose-invert"
-    />
+    <div className="prose dark:prose-invert">
+      {parse(description)}
+    </div>
   );
 };

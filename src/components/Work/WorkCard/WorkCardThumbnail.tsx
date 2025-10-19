@@ -18,7 +18,7 @@ export const WorkCardThumbnail = ({ thumbnail, title }: Props): ReactElement | n
       alt={`サムネイル_${title}`}
       width={thumbnail.width}
       height={thumbnail.height}
-      className="object-cover w-full border-2"
+      className="object-cover w-full border-2 border-gray-300"
     />
   );
 };

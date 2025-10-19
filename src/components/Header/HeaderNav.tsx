@@ -6,7 +6,12 @@ type NavItem = {
   text: string;
 };
 
-export const HeaderNav = (): React.ReactElement => {
+type Props = {
+  isMobile?: boolean;
+  onLinkClick?: () => void;
+};
+
+export const HeaderNav = ({ isMobile = false, onLinkClick }: Props): React.ReactElement => {
   const navItems: NavItem[] = [
     { href: '/', text: 'WORKS' },
     { href: '/about', text: 'ABOUT' },
@@ -14,9 +19,14 @@ export const HeaderNav = (): React.ReactElement => {
 
   return (
     <nav>
-      <ul className="flex space-x-4">
+      <ul className={isMobile ? 'flex flex-col items-center space-y-4' : 'flex space-x-4'}>
         {navItems.map((item) => (
-          <HeaderNavigationItem key={item.href} href={item.href} text={item.text} />
+          <HeaderNavigationItem
+            key={item.href}
+            href={item.href}
+            text={item.text}
+            onClick={onLinkClick}
+          />
         ))}
       </ul>
     </nav>

@@ -14,9 +14,9 @@ type Props = {
 
 export const WorkCard = ({ work }: Props): ReactElement => {
   return (
-    <article className="border-2 border-foreground-light dark:border-foreground-dark p-12 flex flex-col">
+    <article className="border-2 border-foreground-light dark:border-foreground-dark p-6 sm:p-8 flex flex-col">
       {/* 上部セクション */}
-      <div className="flex justify-between gap-4">
+      <div className="flex flex-col sp:flex-row justify-between gap-4">
         {/* 左側 */}
         <div className="flex-grow">
           <WorkCardCategory category={work.category} />
@@ -24,13 +24,13 @@ export const WorkCard = ({ work }: Props): ReactElement => {
           <WorkCardRoles roles={work.roles} />
         </div>
         {/* 右側 */}
-        <div className="flex-shrink-0 w-full max-w-[12rem]">
+        <div className="flex-shrink-0 w-full sp:max-w-[7rem] lg:max-w-[12rem]">
           <WorkCardTechnologies technologies={work.technologies} />
         </div>
       </div>
 
       {/* 中部セクション */}
-      <div className="mt-12 mb-4">
+      <div className="mt-8 lg:mt-12 mb-4">
         <WorkCardThumbnail thumbnail={work.thumbnail} title={work.title} />
       </div>
 

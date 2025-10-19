@@ -12,7 +12,6 @@ export const ToggleSwitch = ({ checked, onChange, label, className }: ToggleSwit
     <label className={`relative inline-flex items-center cursor-pointer ${className}`}>
       <input
         type="checkbox"
-        value=""
         className="sr-only peer"
         checked={checked}
         onChange={(e) => onChange(e.target.checked)}

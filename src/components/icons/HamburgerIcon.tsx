@@ -23,7 +23,7 @@ export const HamburgerIcon = ({ isOpen, className, ...rest }: Props) => {
     position: 'absolute',
     height: `${lineThickness}px`,
     backgroundColor: 'currentColor',
-    transition: 'all 0.3s ease-in-out',
+    transition: 'all 0.1s ease-in-out',
   };
 
   // アニメーション後（'×'の状態）の線の幅と、それを中央に配置するための左右の余白

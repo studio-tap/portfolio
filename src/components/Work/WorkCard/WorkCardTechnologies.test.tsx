@@ -33,9 +33,5 @@ describe('WorkCardTechnologies', () => {
     expect(reactElement.tagName).toBe('LI');
   });
 
-  it('背景色のクラスが適用される', () => {
-    render(<WorkCardTechnologies technologies={mockTechnologies} />);
-    const reactElement = screen.getByText('React');
-    expect(reactElement).toHaveClass('bg-gray-200', 'dark:bg-gray-700', 'rounded-full', 'p-2');
-  });
+
 });

@@ -4,15 +4,19 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useTheme } from 'next-themes';
+import { usePathname } from 'next/navigation';
 import { ThemeSwitcher } from './ThemeSwitcher';
 import { HeaderNav } from './HeaderNav';
 import { HamburgerIcon } from '@/components/icons/HamburgerIcon';
 import { Typography } from '@/components/Typography/Typography';
 import logoBlack from '@/public/logo/logo-black.png';
 import logoWhite from '@/public/logo/logo-white.png';
+import { BaseLink } from '@/components/Link/BaseLink';
+import { ExternalLink } from '@/components/Link/ExternalLink';
 
 export const Header = (): React.ReactElement => {
   const { theme } = useTheme();
+  const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -20,10 +24,15 @@ export const Header = (): React.ReactElement => {
     setMounted(true);
   }, []);
 
+  // ページ遷移完了時にメニューを閉じる
+  useEffect(() => {
+    setIsOpen(false);
+  }, [pathname]);
+
   return (
     <>
       <header className="sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-lg">
-        <div className="relative flex justify-between items-center px-2 py-6 border-b-2 border-foreground-light dark:border-foreground-dark">
+        <div className="relative flex justify-between items-center px-2 py-4 sp:py-6 border-b-2 border-foreground-light dark:border-foreground-dark">
           {/* Left */}
           <Link href="/" className="flex items-center gap-1">
             {mounted && (
@@ -64,29 +73,13 @@ export const Header = (): React.ReactElement => {
         <div className="sp:hidden fixed inset-0 bg-background-light dark:bg-background-dark z-40 flex flex-col items-center justify-between py-12">
           {/* Main Navigation */}
           <div className="flex flex-col items-center gap-8 flex-1 justify-center">
-            <HeaderNav isMobile onLinkClick={() => setIsOpen(false)} />
+            <HeaderNav isMobile />
 
             {/* Contact Links */}
             <div className="flex flex-col items-center gap-2 mt-4">
-              <Typography
-                as="a"
-                href="mailto:camphora@studio-tap.com"
-                variant="header-nav"
-                className="p-2 font-medium hover-opacity-strong"
-                onClick={() => setIsOpen(false)}
-              >
-                EMAIL
-              </Typography>
-              <Typography
-                as="a"
-                href="https://forms.gle/1iG7xoAD34fJ8hjy5"
-                target="_blank"
-                rel="noopener noreferrer"
-                variant="header-nav"
-                className="p-2 font-medium hover-opacity-strong"
-                onClick={() => setIsOpen(false)}
-              >
-                CONTACT FORM
+              <Typography as="p" variant="body-normal">
+                Email: <BaseLink href="mailto:camphora@studio-tap.com">camphora@studio-tap.com</BaseLink><br />
+                Form: <ExternalLink href="https://forms.gle/1iG7xoAD34fJ8hjy5">Google Form</ExternalLink>
               </Typography>
             </div>
 
@@ -102,8 +95,8 @@ export const Header = (): React.ReactElement => {
               <Image
                 src={theme === 'dark' ? logoWhite : logoBlack}
                 alt="STUDIO - TAP Logo"
-                width={48}
-                height={48}
+                width={16}
+                height={16}
                 quality={100}
               />
             )}

@@ -8,10 +8,9 @@ type NavItem = {
 
 type Props = {
   isMobile?: boolean;
-  onLinkClick?: () => void;
 };
 
-export const HeaderNav = ({ isMobile = false, onLinkClick }: Props): React.ReactElement => {
+export const HeaderNav = ({ isMobile = false }: Props): React.ReactElement => {
   const navItems: NavItem[] = [
     { href: '/', text: 'WORKS' },
     { href: '/about', text: 'ABOUT' },
@@ -25,7 +24,6 @@ export const HeaderNav = ({ isMobile = false, onLinkClick }: Props): React.React
             key={item.href}
             href={item.href}
             text={item.text}
-            onClick={onLinkClick}
           />
         ))}
       </ul>

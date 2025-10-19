@@ -15,7 +15,7 @@ import { BaseLink } from '@/components/Link/BaseLink';
 import { ExternalLink } from '@/components/Link/ExternalLink';
 
 export const Header = (): React.ReactElement => {
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
   const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -37,7 +37,7 @@ export const Header = (): React.ReactElement => {
           <Link href="/" className="flex items-center gap-1">
             {mounted && (
               <Image
-                src={theme === 'dark' ? logoWhite : logoBlack}
+                src={resolvedTheme === 'dark' ? logoWhite : logoBlack}
                 alt="STUDIO - TAP Logo"
                 width={24} // 1.5rem = 24px
                 height={24}
@@ -93,7 +93,7 @@ export const Header = (): React.ReactElement => {
           <div className="flex flex-col items-center gap-2">
             {mounted && (
               <Image
-                src={theme === 'dark' ? logoWhite : logoBlack}
+                src={resolvedTheme === 'dark' ? logoWhite : logoBlack}
                 alt="STUDIO - TAP Logo"
                 width={16}
                 height={16}

@@ -450,3 +450,18 @@ DockerとVercelを併用した開発における、依存関係（npmパッケ�
   - 合計28テストを作成し、全てパスすることを確認。
   - カバレッジレポートでHeaderコンポーネント群が98.19%を達成。
 
+## 2025-10-19 (Part 2): 本番ビルドエラーの修正とデプロイ準備
+
+- **Vercelビルドエラーの調査と修正**:
+  - Vercelでの本番ビルド時にテストファイルが含まれていたことによるESLintエラーを特定。
+  - `tsconfig.json`の`exclude`にテストファイル（`**/*.test.ts`, `**/*.test.tsx`）を追加し、TypeScriptのビルド対象から除外。
+  - `eslint.config.mjs`に`ignores`パターンを追加し、ESLintの検証対象からもテストファイルを除外。
+
+- **ThemeProviderの型インポート修正**:
+  - `components/providers/ThemeProvider.tsx`で内部実装パス（`next-themes/dist/types`）を直接参照していた問題を修正。
+  - 公式エクスポートパス（`next-themes`）からの型インポートに変更し、ビルドの堅牢性を向上。
+
+- **デプロイフロー方針の検討**:
+  - 商用利用を考慮し、Vercel無料プランとGoogle Cloud Runを比較検討。
+  - フリーランス営業用途のため、Vercelの有料プランまたはCloud Runでの公開を検討中。
+

@@ -77,7 +77,7 @@ export const Header = (): React.ReactElement => {
 
             {/* Contact Links */}
             <div className="flex flex-col items-center gap-2 mt-4">
-              <Typography as="p" variant="body-normal">
+              <Typography as="p" variant="body-normal" className='font-light'>
                 Email: <BaseLink href="mailto:camphora@studio-tap.com">camphora@studio-tap.com</BaseLink><br />
                 Form: <ExternalLink href="https://forms.gle/1iG7xoAD34fJ8hjy5">Google Form</ExternalLink>
               </Typography>
@@ -95,8 +95,8 @@ export const Header = (): React.ReactElement => {
               <Image
                 src={resolvedTheme === 'dark' ? logoWhite : logoBlack}
                 alt="STUDIO - TAP Logo"
-                width={16}
-                height={16}
+                width={24}
+                height={24}
                 quality={100}
               />
             )}

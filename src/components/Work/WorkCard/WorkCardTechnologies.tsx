@@ -18,7 +18,7 @@ export const WorkCardTechnologies = ({ technologies }: Props): ReactElement | nu
           as="li"
           key={tech.id}
           variant="card-technology"
-          className="bg-gray-200 dark:bg-gray-700 rounded-full p-2"
+          className="font-light bg-gray-200 dark:bg-gray-700 rounded-full p-2"
         >
           {tech.name}
         </Typography>

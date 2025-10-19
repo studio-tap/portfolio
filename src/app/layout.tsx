@@ -1,23 +1,21 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
+import { IBM_Plex_Mono, Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header/Header";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 
-const plemolJP = localFont({
-  src: [
-    {
-      path: "../public/fonts/PlemolJP_NF_v3.0.0/PlemolJPConsole_NF/PlemolJPConsoleNF-Regular.ttf",
-      weight: "normal",
-      style: "normal",
-    },
-    {
-      path: "../public/fonts/PlemolJP_NF_v3.0.0/PlemolJPConsole_NF/PlemolJPConsoleNF-Bold.ttf",
-      weight: "bold",
-      style: "normal",
-    },
-  ],
-  variable: "--font-plemol-jp",
+const ibmPlexMono = IBM_Plex_Mono({
+  weight: ['100', '300', '400', '500', '700'],
+  subsets: ['latin'],
+  variable: '--font-ibm-plex-mono',
+  display: 'swap',
+});
+
+const notoSansJP = Noto_Sans_JP({
+  weight: ['100', '300', '400', '500', '700', '900'],
+  subsets: ['latin'],
+  variable: '--font-noto-sans-jp',
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -32,7 +30,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja" suppressHydrationWarning>
-      <body className={`${plemolJP.variable} antialiased`} suppressHydrationWarning>
+      <body className={`${ibmPlexMono.variable} ${notoSansJP.variable} antialiased`} suppressHydrationWarning>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

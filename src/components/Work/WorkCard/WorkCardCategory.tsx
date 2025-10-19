@@ -7,5 +7,5 @@ type Props = {
 };
 
 export const WorkCardCategory = ({ category }: Props): ReactElement => {
-  return <WorkCardMetaItem>{category.name}</WorkCardMetaItem>;
+  return <WorkCardMetaItem className='font-light'>{category.name}</WorkCardMetaItem>;
 };

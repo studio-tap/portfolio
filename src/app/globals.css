@@ -2,9 +2,87 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * PlemolJPConsole
+ * https://github.com/yuru7/PlemolJP
+ */
+@font-face {
+  font-family: 'PlemolJPConsole';
+  src: url('/font/PlemolJPConsole/PlemolJPConsole-Thin.woff2') format('woff2');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PlemolJPConsole';
+  src: url('/font/PlemolJPConsole/PlemolJPConsole-ExtraLight.woff2') format('woff2');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PlemolJPConsole';
+  src: url('/font/PlemolJPConsole/PlemolJPConsole-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PlemolJPConsole';
+  src: url('/font/PlemolJPConsole/PlemolJPConsole-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PlemolJPConsole';
+  src: url('/font/PlemolJPConsole/PlemolJPConsole-Text.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PlemolJPConsole';
+  src: url('/font/PlemolJPConsole/PlemolJPConsole-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PlemolJPConsole';
+  src: url('/font/PlemolJPConsole/PlemolJPConsole-SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PlemolJPConsole';
+  src: url('/font/PlemolJPConsole/PlemolJPConsole-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Nerd Font アイコン専用 */
+@font-face {
+  font-family: 'PlemolJP Icons';
+  src: url('/font/PlemolJPConsole_NF/PlemolJPConsoleNF-Icons.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+
 @layer base {
   body {
-    /* next/fontで読み込んだカスタムフォントを適用 */
-    font-family: var(--font-plemol-jp), monospace;
+    /* PlemolJP優先、フォールバックにGoogle Fonts */
+    font-family: 'PlemolJPConsole', 'PlemolJP Icons', var(--font-ibm-plex-mono), var(--font-noto-sans-jp), monospace;
   }
 }

@@ -423,7 +423,7 @@ DockerとVercelを併用した開発における、依存関係（npmパッケ�
     - `WorkCardTechnologies.test.tsx` (5テスト) - 全技術名表示、空配列ハンドリング、正しいカウント、liタグ使用、背景色クラスのテスト
     - `WorkCardThumbnail.test.tsx` (4テスト) - undefinedハンドリング、画像表示、altテキスト、必須クラスのテスト
     - `WorkCardDescription.test.tsx` (5テスト) - undefined/空文字列ハンドリング、説明文表示、HTMLパース、proseクラスのテスト
-    - `WorkCardLink.test.tsx` (5テスト) - undefinedハンドリング、リンク表示、VIEW SITEテキスト、href属性、inline-blockクラスのテスト
+    - `WorkCardLink.test.tsx` (5テスト) - undefinedハンドリグ、リンク表示、VIEW SITEテキスト、href属性、inline-blockクラスのテスト
   - 統合テストとして `WorkCard.test.tsx` (5テスト) を作成 - 全情報の正しい表示、オプショナル項目のハンドリング、articleタグ、必須クラス、レスポンシブレイアウトのテスト
   - 合計38テストを作成し、全てパスすることを確認。
   - Next.jsの`Image`コンポーネントがURL最適化を行うため、直接的なURL比較テストを削除するなど、フレームワークの特性に応じた調整を実施。
@@ -465,3 +465,22 @@ DockerとVercelを併用した開発における、依存関係（npmパッケ�
   - 商用利用を考慮し、Vercel無料プランとGoogle Cloud Runを比較検討。
   - フリーランス営業用途のため、Vercelの有料プランまたはCloud Runでの公開を検討中。
 
+
+## 2025-10-19 (Part 3): フォントの最適化によるパフォーマンス改善
+
+- **目的**:
+  - Webフォントのファイルサイズを削減し、ページの読み込みパフォーマンスを向上させる。
+
+- **経緯**:
+  - 当初、`PlemolJPConsole_NF` からNerd Fontアイコンを除外するサブセット化を試みたが、`pyftsubset`のコマンド仕様の解釈に手間取り、複数回失敗した。
+  - 方針を転換し、ユーザーが用意したNerd Font非同梱版の `PlemolJPConsole` を最適化の対象とした。
+  - プロジェクトで未使用のイタリック体フォント（8ファイル）を削除。
+  - `pyftsubset`の仕様を再度誤認し、グリフを一切含まない空のフォントファイルを生成してしまうミスが発生。
+  - 最終的に、`--unicodes='*'` オプションを使用することで、フォントが持つすべての文字を保持したまま最適化と`woff2`形式への変換を行う正しい手法に到達。
+
+- **結果**:
+  - 非イタリック体のフォント8種（Bold, ExtraLight, Light, Regular, Medium, SemiBold, Text, Thin）を、文字情報を一切損なうことなく`woff2`形式に変換・最適化。
+  - これにより、`.ttf`形式（約5.4MB）から`.woff2`形式（約1.8MB）へと、ファイルあたり約66%の大幅なファイルサイズ削減を達成した。
+  - `globals.css`を修正し、新しい`.woff2`フォントを読み込むように`@font-face`定義を全面的に更新。
+  - 誤って削除してしまったアイコンフォントの定義をCSSに再追加し、`font-family`のフォールバックも修正した。
+  - 不要になった元の`.ttf`ファイルはプロジェクトから完全に削除した。

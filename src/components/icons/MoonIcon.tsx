@@ -7,8 +7,8 @@ type MoonIconProps = {
 
 export const MoonIcon = ({ className }: MoonIconProps): React.ReactElement => {
   return (
-    <ThemeIcon className={`${className}`}>
-      {''} {/* Nerd Font Unicode for fa-moon */}
+    <ThemeIcon className={className}>
+      <span style={{ fontFamily: 'PlemolJP Icons' }}></span>
     </ThemeIcon>
   );
 };

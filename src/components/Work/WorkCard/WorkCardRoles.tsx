@@ -14,7 +14,7 @@ export const WorkCardRoles = ({ roles }: Props): ReactElement | null => {
   return (
     <div>
       {roles.map((role) => (
-        <WorkCardMetaItem key={role.id}>
+        <WorkCardMetaItem key={role.id} className='font-light'>
           {role.name}
         </WorkCardMetaItem>
       ))}

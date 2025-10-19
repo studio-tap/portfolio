@@ -22,7 +22,7 @@ export const HeaderNavigationItem = ({ href, text }: HeaderNavigationItemProps):
         variant="header-nav"
         className={`
           p-2
-          ${isActive ? 'font-bold pointer-events-none' : 'font-medium hover-opacity-strong'}
+          ${isActive ? 'font-bold pointer-events-none' : 'font-light hover-opacity-strong'}
         `}
         aria-disabled={isActive}
       >

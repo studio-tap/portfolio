@@ -12,7 +12,7 @@ export const ExternalLink = ({ children, className = '', ...props }: ExternalLin
       rel="noopener noreferrer"
       className={`inline-flex items-center gap-1 ${className}`}>
       <span>{children}</span>
-      <span className="ml-1"></span>
+      <span style={{ fontFamily: 'PlemolJP Icons' }} className="ml-1"></span>
     </BaseLink>
   );
 };

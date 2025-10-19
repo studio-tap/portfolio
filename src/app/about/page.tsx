@@ -14,7 +14,7 @@ const AboutPage = (): React.ReactElement => {
           <Typography as="h2" variant="about-title" className="font-bold">
             PROFILE
           </Typography>
-          <Typography as="p" variant="body-normal">
+          <Typography as="p" variant="body-normal" className='font-light'>
             クスノキ<br />
             WEB Design, Coding, WEB Direction<br />
             鳥取県出身。埼玉県在住。
@@ -25,7 +25,7 @@ const AboutPage = (): React.ReactElement => {
           <Typography as="h2" variant="about-title" className="font-bold">
             SKILLS
           </Typography>
-          <Typography as="p" variant="body-normal">
+          <Typography as="p" variant="body-normal" className='font-light'>
             HTML, CSS, JavaScript, TypeScript, React, Next.js, Vue.js, Nuxt.js, Tailwind CSS, Sass,<br />
             PHP, Laravel, WordPress, Python, Django,<br />
             MySQL, PostgreSQL, SQL,<br />
@@ -37,7 +37,7 @@ const AboutPage = (): React.ReactElement => {
           <Typography as="h2" variant="about-title" className="font-bold">
             CONTACT
           </Typography>
-          <Typography as="p" variant="body-normal">
+          <Typography as="p" variant="body-normal" className="font-light">
             Email: <BaseLink href="mailto:camphora@studio-tap.com">camphora@studio-tap.com</BaseLink><br />
             Form: <ExternalLink href="https://forms.gle/1iG7xoAD34fJ8hjy5">Google Form</ExternalLink>
           </Typography>

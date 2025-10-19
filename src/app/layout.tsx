@@ -19,8 +19,11 @@ const notoSansJP = Noto_Sans_JP({
 });
 
 export const metadata: Metadata = {
-  title: "My Portfolio",
-  description: "A personal portfolio website.",
+  title: "STUDIO-TAP",
+  description: "Web開発・デザインのポートフォリオサイト",
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
 
 export default function RootLayout({

@@ -33,7 +33,7 @@ export const Typography = <C extends React.ElementType = 'p'>({
   const variantClass = variants[variant];
 
   return (
-    <Component className={`${variantClass} ${className}`} {...rest}>
+    <Component className={[variantClass, className].filter(Boolean).join(' ')} {...rest}>
       {children}
     </Component>
   );

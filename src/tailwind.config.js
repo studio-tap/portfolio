@@ -8,6 +8,15 @@ module.exports = {
   ],
   darkMode: 'class',
   theme: {
+    screens: {
+      'sp': '480px',
+      'sm': '640px',
+      'md': '768px',
+      'lg': '1024px',
+      'xl': '1280px',
+      '2xl': '1440px',
+      '3xl': '1920px',
+    },
     extend: {
       fontSize: {
         'xs': '0.75rem',    // 12px
@@ -41,7 +50,7 @@ module.exports = {
         // ライトモード/ダークモードの基本色
         background: {
           light: '#FFFFFF',
-          dark: '#0F0F0F',
+          dark: '#1F1F1F',
         },
         foreground: {
           light: '#000000',

@@ -30,6 +30,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja" suppressHydrationWarning>
+      <head>
+        <link
+          rel="preload"
+          href="/font/PlemolJPConsole_NF/PlemolJPConsoleNF-Icons.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body className={`${ibmPlexMono.variable} ${notoSansJP.variable} antialiased`} suppressHydrationWarning>
         <ThemeProvider
           attribute="class"

@@ -4,7 +4,7 @@
 .pnp.js
 
 # Testing
-/coverage
+coverage/
 
 # Next.js
 /.next/
@@ -16,6 +16,7 @@
 # Misc
 .DS_Store
 *.pem
+*.log
 
 # Local Environment Variables
 .env.local
@@ -29,9 +30,6 @@
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
-
-# Local package files
-/package.json
 
 # Temporary files
 /tmp

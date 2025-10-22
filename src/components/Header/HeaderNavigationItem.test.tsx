@@ -8,55 +8,99 @@ vi.mock('next/navigation', () => ({
   usePathname: vi.fn(),
 }));
 
+// Typographyコンポーネントのモック
+vi.mock('@/components/Typography/Typography', () => ({
+  Typography: ({ children, as: Component = 'span', href, className, 'aria-disabled': ariaDisabled }: any) => {
+    if (Component === 'a' || (Component as any)?.name === 'Link') {
+      return (
+        <a href={href} className={className} aria-disabled={ariaDisabled}>
+          {children}
+        </a>
+      );
+    }
+    return (
+      <Component className={className} aria-disabled={ariaDisabled}>
+        {children}
+      </Component>
+    );
+  },
+}));
+
 describe('HeaderNavigationItem', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  it('リンクテキストが表示される', () => {
+  it('リンクがレンダリングされる', () => {
+    vi.mocked(usePathname).mockReturnValue('/');
+
+    render(<HeaderNavigationItem href="/about" text="About" />);
+
+    const link = screen.getByRole('link');
+    expect(link).toBeInTheDocument();
+  });
+
+  it('textが表示される', () => {
+    vi.mocked(usePathname).mockReturnValue('/');
+
+    render(<HeaderNavigationItem href="/about" text="About" />);
+
+    expect(screen.getByText('About')).toBeInTheDocument();
+  });
+
+  it('hrefが正しく適用される', () => {
+    vi.mocked(usePathname).mockReturnValue('/');
+
+    render(<HeaderNavigationItem href="/about" text="About" />);
+
+    const link = screen.getByRole('link');
+    expect(link).toHaveAttribute('href', '/about');
+  });
+
+  it('現在のパスと一致する場合はアクティブスタイルが適用される', () => {
     vi.mocked(usePathname).mockReturnValue('/about');
 
-    render(<HeaderNavigationItem href="/" text="WORKS" />);
-    expect(screen.getByText('WORKS')).toBeInTheDocument();
+    render(<HeaderNavigationItem href="/about" text="About" />);
+
+    const link = screen.getByRole('link');
+    expect(link.className).toContain('font-bold');
+    expect(link.className).toContain('pointer-events-none');
   });
 
-  it('hrefが正しく設定される', () => {
+  it('現在のパスと一致しない場合は通常スタイルが適用される', () => {
+    vi.mocked(usePathname).mockReturnValue('/');
+
+    render(<HeaderNavigationItem href="/about" text="About" />);
+
+    const link = screen.getByRole('link');
+    expect(link.className).toContain('font-light');
+    expect(link.className).toContain('hover-opacity-strong');
+  });
+
+  it('アクティブ時にaria-disabled=trueが適用される', () => {
     vi.mocked(usePathname).mockReturnValue('/about');
 
-    render(<HeaderNavigationItem href="/" text="WORKS" />);
-    const link = screen.getByRole('link');
-    expect(link).toHaveAttribute('href', '/');
-  });
+    render(<HeaderNavigationItem href="/about" text="About" />);
 
-  it('現在のページの場合、font-boldクラスが適用される', () => {
-    vi.mocked(usePathname).mockReturnValue('/');
-
-    render(<HeaderNavigationItem href="/" text="WORKS" />);
-    const link = screen.getByRole('link');
-    expect(link).toHaveClass('font-bold');
-  });
-
-  it('現在のページの場合、pointer-events-noneクラスが適用される', () => {
-    vi.mocked(usePathname).mockReturnValue('/');
-
-    render(<HeaderNavigationItem href="/" text="WORKS" />);
-    const link = screen.getByRole('link');
-    expect(link).toHaveClass('pointer-events-none');
-  });
-
-  it('現在のページの場合、aria-disabledがtrueになる', () => {
-    vi.mocked(usePathname).mockReturnValue('/');
-
-    render(<HeaderNavigationItem href="/" text="WORKS" />);
     const link = screen.getByRole('link');
     expect(link).toHaveAttribute('aria-disabled', 'true');
   });
 
-  it('他のページの場合、font-mediumとhover-opacity-strongクラスが適用される', () => {
-    vi.mocked(usePathname).mockReturnValue('/about');
+  it('非アクティブ時にaria-disabled=falseが適用される', () => {
+    vi.mocked(usePathname).mockReturnValue('/');
 
-    render(<HeaderNavigationItem href="/" text="WORKS" />);
+    render(<HeaderNavigationItem href="/about" text="About" />);
+
     const link = screen.getByRole('link');
-    expect(link).toHaveClass('font-medium', 'hover-opacity-strong');
+    expect(link).toHaveAttribute('aria-disabled', 'false');
+  });
+
+  it('リスト要素内にレンダリングされる', () => {
+    vi.mocked(usePathname).mockReturnValue('/');
+
+    const { container } = render(<HeaderNavigationItem href="/about" text="About" />);
+
+    const listItem = container.querySelector('li');
+    expect(listItem).toBeInTheDocument();
   });
 });

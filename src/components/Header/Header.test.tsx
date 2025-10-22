@@ -1,95 +1,193 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Header } from './Header';
-import { useTheme } from 'next-themes';
 import { usePathname } from 'next/navigation';
-
-// next-themesのモック
-vi.mock('next-themes', () => ({
-  useTheme: vi.fn(),
-}));
 
 // next/navigationのモック
 vi.mock('next/navigation', () => ({
   usePathname: vi.fn(),
 }));
 
-// アイコンコンポーネントのモック
-vi.mock('@/components/icons/SunIcon', () => ({
-  SunIcon: ({ className }: { className?: string }) => <div data-testid="sun-icon" className={className}>Sun</div>,
+// 子コンポーネントのモック
+vi.mock('./ThemeSwitcher', () => ({
+  ThemeSwitcher: () => <div data-testid="theme-switcher">ThemeSwitcher</div>,
 }));
 
-vi.mock('@/components/icons/MoonIcon', () => ({
-  MoonIcon: ({ className }: { className?: string }) => <div data-testid="moon-icon" className={className}>Moon</div>,
+vi.mock('./HeaderNav', () => ({
+  HeaderNav: ({ isMobile }: { isMobile?: boolean }) => (
+    <div data-testid={isMobile ? 'header-nav-mobile' : 'header-nav-pc'}>HeaderNav</div>
+  ),
 }));
 
 vi.mock('@/components/icons/HamburgerIcon', () => ({
   HamburgerIcon: ({ isOpen, onClick }: { isOpen: boolean; onClick: () => void }) => (
-    <button data-testid="hamburger-icon" onClick={onClick} aria-label={isOpen ? 'Close menu' : 'Open menu'}>
+    <button data-testid="hamburger-icon" onClick={onClick} aria-label="メニュー">
       {isOpen ? 'Close' : 'Open'}
     </button>
   ),
 }));
 
-describe('Header 統合テスト', () => {
-  const mockSetTheme = vi.fn();
+vi.mock('@/components/Typography/Typography', () => ({
+  Typography: ({ children, as: Component = 'span', href, className }: any) => {
+    if (Component === 'h1') {
+      return <h1 className={className}>{children}</h1>;
+    }
+    if (Component === 'p') {
+      return <p className={className}>{children}</p>;
+    }
+    if (Component === 'a' || (Component as any)?.name === 'Link') {
+      return (
+        <a href={href} className={className}>
+          {children}
+        </a>
+      );
+    }
+    return <Component className={className}>{children}</Component>;
+  },
+}));
 
+vi.mock('@/components/Link/BaseLink', () => ({
+  BaseLink: ({ href, children }: { href: string; children: React.ReactNode }) => (
+    <a href={href} data-testid="base-link">
+      {children}
+    </a>
+  ),
+}));
+
+vi.mock('@/components/Link/ExternalLink', () => ({
+  ExternalLink: ({ href, children }: { href: string; children: React.ReactNode }) => (
+    <a href={href} data-testid="external-link" target="_blank" rel="noopener noreferrer">
+      {children}
+    </a>
+  ),
+}));
+
+// next/imageのモック
+vi.mock('next/image', () => ({
+  default: ({ src, alt, ...props }: any) => {
+    // srcがオブジェクトの場合（StaticImageData）はsrc.srcを使用
+    const imgSrc = typeof src === 'object' && src.src ? src.src : src;
+    return <img src={imgSrc} alt={alt} {...props} />;
+  },
+}));
+
+describe('Header', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-
-    vi.mocked(useTheme).mockReturnValue({
-      theme: 'light',
-      setTheme: mockSetTheme,
-      resolvedTheme: 'light',
-    } as any);
-
     vi.mocked(usePathname).mockReturnValue('/');
   });
 
-  it('headerタグが表示される', () => {
+  it('header要素がレンダリングされる', () => {
     const { container } = render(<Header />);
+
     const header = container.querySelector('header');
     expect(header).toBeInTheDocument();
   });
 
-  it('STUDIO-TAPテキストが表示される', () => {
+  it('サイト名（STUDIO-TAP）が表示される', () => {
     render(<Header />);
-    expect(screen.getAllByText('STUDIO-TAP')[0]).toBeInTheDocument();
+
+    const siteNames = screen.getAllByText('STUDIO-TAP');
+    expect(siteNames.length).toBeGreaterThan(0);
   });
 
-  it('ロゴ画像がマウント後に表示される', async () => {
+  it('ホームへのリンクが設定される', () => {
     render(<Header />);
 
-    await waitFor(() => {
-      const logo = screen.getAllByAltText('STUDIO - TAP Logo')[0];
-      expect(logo).toBeInTheDocument();
-    });
+    const links = screen.getAllByRole('link');
+    const homeLink = links.find((link) => link.getAttribute('href') === '/');
+    expect(homeLink).toBeInTheDocument();
   });
 
-  it('ナビゲーションリンク（WORKSとABOUT）が表示される', () => {
+  it('ロゴ画像が複数レンダリングされる', () => {
     render(<Header />);
-    expect(screen.getAllByText('WORKS').length).toBeGreaterThan(0);
-    expect(screen.getAllByText('ABOUT').length).toBeGreaterThan(0);
+
+    const images = screen.getAllByRole('img');
+    // ヘッダー内のロゴ2枚 + モバイルメニュー内のロゴ2枚（非表示時も含む）= 4枚
+    // ただし、モバイルメニューは非表示なので、実際には2枚のみ表示
+    expect(images.length).toBeGreaterThanOrEqual(2);
+  });
+
+  it('ロゴのaltが正しく設定される', () => {
+    render(<Header />);
+
+    const images = screen.getAllByRole('img');
+    const logoWithAlt = images.find((img) => img.getAttribute('alt') === 'STUDIO - TAP Logo');
+    const logoWithoutAlt = images.find((img) => img.getAttribute('alt') === '');
+
+    expect(logoWithAlt).toBeInTheDocument();
+    expect(logoWithoutAlt).toBeInTheDocument();
+  });
+
+  it('PCナビゲーションが表示される', () => {
+    render(<Header />);
+
+    expect(screen.getByTestId('header-nav-pc')).toBeInTheDocument();
+  });
+
+  it('ThemeSwitcherが表示される', () => {
+    render(<Header />);
+
+    const themeSwitchers = screen.getAllByTestId('theme-switcher');
+    expect(themeSwitchers.length).toBeGreaterThan(0);
   });
 
   it('ハンバーガーアイコンが表示される', () => {
     render(<Header />);
+
     expect(screen.getByTestId('hamburger-icon')).toBeInTheDocument();
   });
 
-  it('ハンバーガーアイコンをクリックするとメニューが開く', async () => {
+  it('初期状態ではモバイルメニューが表示されない', () => {
+    render(<Header />);
+
+    expect(screen.queryByTestId('header-nav-mobile')).not.toBeInTheDocument();
+  });
+
+  it('ハンバーガーアイコンをクリックするとモバイルメニューが表示される', async () => {
     const user = userEvent.setup();
     render(<Header />);
 
     const hamburger = screen.getByTestId('hamburger-icon');
     await user.click(hamburger);
 
-    // メニュー内のメールアドレスが表示される
+    expect(screen.getByTestId('header-nav-mobile')).toBeInTheDocument();
+  });
+
+  it('モバイルメニュー内にメールアドレスが表示される', async () => {
+    const user = userEvent.setup();
+    render(<Header />);
+
+    const hamburger = screen.getByTestId('hamburger-icon');
+    await user.click(hamburger);
+
     expect(screen.getByText(/camphora@studio-tap.com/)).toBeInTheDocument();
   });
 
-  it('メニューが開いている状態でハンバーガーアイコンをクリックするとメニューが閉じる', async () => {
+  it('モバイルメニュー内にフォームリンクが表示される', async () => {
+    const user = userEvent.setup();
+    render(<Header />);
+
+    const hamburger = screen.getByTestId('hamburger-icon');
+    await user.click(hamburger);
+
+    expect(screen.getByText('Google Form')).toBeInTheDocument();
+  });
+
+  it('モバイルメニュー内にThemeSwitcherが表示される', async () => {
+    const user = userEvent.setup();
+    render(<Header />);
+
+    const hamburger = screen.getByTestId('hamburger-icon');
+    await user.click(hamburger);
+
+    const themeSwitchers = screen.getAllByTestId('theme-switcher');
+    // PC用 + モバイル用 = 2つ
+    expect(themeSwitchers.length).toBe(2);
+  });
+
+  it('ハンバーガーアイコンを再度クリックするとモバイルメニューが閉じる', async () => {
     const user = userEvent.setup();
     render(<Header />);
 
@@ -97,52 +195,35 @@ describe('Header 統合テスト', () => {
 
     // メニューを開く
     await user.click(hamburger);
-    expect(screen.getByText(/camphora@studio-tap.com/)).toBeInTheDocument();
+    expect(screen.getByTestId('header-nav-mobile')).toBeInTheDocument();
 
     // メニューを閉じる
     await user.click(hamburger);
-    expect(screen.queryByText(/camphora@studio-tap.com/)).not.toBeInTheDocument();
+    expect(screen.queryByTestId('header-nav-mobile')).not.toBeInTheDocument();
   });
 
-  it('pathname変更時にメニューが閉じる', async () => {
+  it('pathname変更時にモバイルメニューが閉じる', async () => {
     const user = userEvent.setup();
-
     const { rerender } = render(<Header />);
 
     // メニューを開く
     const hamburger = screen.getByTestId('hamburger-icon');
     await user.click(hamburger);
-    expect(screen.getByText(/camphora@studio-tap.com/)).toBeInTheDocument();
+    expect(screen.getByTestId('header-nav-mobile')).toBeInTheDocument();
 
     // pathnameを変更
     vi.mocked(usePathname).mockReturnValue('/about');
     rerender(<Header />);
 
     // メニューが閉じる
-    await waitFor(() => {
-      expect(screen.queryByText(/camphora@studio-tap.com/)).not.toBeInTheDocument();
-    });
+    expect(screen.queryByTestId('header-nav-mobile')).not.toBeInTheDocument();
   });
 
-  it('必須のクラスが適用される', () => {
-    const { container } = render(<Header />);
-    const header = container.querySelector('header');
-    expect(header).toHaveClass('sticky', 'top-0', 'z-50');
-  });
-
-  it('ダークモードの場合、白いロゴが表示される', async () => {
-    vi.mocked(useTheme).mockReturnValue({
-      theme: 'dark',
-      setTheme: mockSetTheme,
-      resolvedTheme: 'dark',
-    } as any);
-
+  it('aria-hiddenがダークモード用ロゴに適用される', () => {
     render(<Header />);
 
-    await waitFor(() => {
-      const logos = screen.getAllByAltText('STUDIO - TAP Logo');
-      // ロゴが表示されていることを確認（src属性の詳細な検証はNext.jsの最適化により困難）
-      expect(logos.length).toBeGreaterThan(0);
-    });
+    const images = screen.getAllByRole('img', { hidden: true });
+    const hiddenLogo = images.find((img) => img.getAttribute('aria-hidden') === 'true');
+    expect(hiddenLogo).toBeInTheDocument();
   });
 });

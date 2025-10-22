@@ -11,11 +11,19 @@ vi.mock('next-themes', () => ({
 
 // アイコンコンポーネントのモック
 vi.mock('@/components/icons/SunIcon', () => ({
-  SunIcon: ({ className }: { className?: string }) => <div data-testid="sun-icon" className={className}>Sun</div>,
+  SunIcon: ({ className }: { className?: string }) => (
+    <div data-testid="sun-icon" className={className}>
+      Sun
+    </div>
+  ),
 }));
 
 vi.mock('@/components/icons/MoonIcon', () => ({
-  MoonIcon: ({ className }: { className?: string }) => <div data-testid="moon-icon" className={className}>Moon</div>,
+  MoonIcon: ({ className }: { className?: string }) => (
+    <div data-testid="moon-icon" className={className}>
+      Moon
+    </div>
+  ),
 }));
 
 describe('ThemeSwitcher', () => {
@@ -25,7 +33,7 @@ describe('ThemeSwitcher', () => {
     vi.clearAllMocks();
   });
 
-  it('マウント後はSunIconとMoonIconが表示される', async () => {
+  it('SunIconとMoonIconが表示される', () => {
     vi.mocked(useTheme).mockReturnValue({
       setTheme: mockSetTheme,
       resolvedTheme: 'light',
@@ -33,13 +41,35 @@ describe('ThemeSwitcher', () => {
 
     render(<ThemeSwitcher />);
 
-    await waitFor(() => {
-      expect(screen.getByTestId('sun-icon')).toBeInTheDocument();
-      expect(screen.getByTestId('moon-icon')).toBeInTheDocument();
-    });
+    expect(screen.getByTestId('sun-icon')).toBeInTheDocument();
+    expect(screen.getByTestId('moon-icon')).toBeInTheDocument();
   });
 
-  it('マウント後はToggleSwitchが表示される', async () => {
+  it('ToggleSwitchが表示される', () => {
+    vi.mocked(useTheme).mockReturnValue({
+      setTheme: mockSetTheme,
+      resolvedTheme: 'light',
+    } as any);
+
+    render(<ThemeSwitcher />);
+
+    const checkbox = screen.getByRole('checkbox');
+    expect(checkbox).toBeInTheDocument();
+  });
+
+  it('初期レンダリング時はトグルが無効化されている', () => {
+    vi.mocked(useTheme).mockReturnValue({
+      setTheme: mockSetTheme,
+      resolvedTheme: 'light',
+    } as any);
+
+    render(<ThemeSwitcher />);
+
+    const checkbox = screen.getByRole('checkbox');
+    expect(checkbox).toBeDisabled();
+  });
+
+  it('マウント後はトグルが有効化される', async () => {
     vi.mocked(useTheme).mockReturnValue({
       setTheme: mockSetTheme,
       resolvedTheme: 'light',
@@ -49,8 +79,20 @@ describe('ThemeSwitcher', () => {
 
     await waitFor(() => {
       const checkbox = screen.getByRole('checkbox');
-      expect(checkbox).toBeInTheDocument();
+      expect(checkbox).not.toBeDisabled();
     });
+  });
+
+  it('aria-labelが適用される', () => {
+    vi.mocked(useTheme).mockReturnValue({
+      setTheme: mockSetTheme,
+      resolvedTheme: 'light',
+    } as any);
+
+    render(<ThemeSwitcher />);
+
+    const checkbox = screen.getByRole('checkbox');
+    expect(checkbox).toHaveAttribute('aria-label', 'ダークモード切り替え');
   });
 
   it('ライトモードのときトグルがオフになっている', async () => {
@@ -81,6 +123,20 @@ describe('ThemeSwitcher', () => {
     });
   });
 
+  it('resolvedThemeがundefinedのときトグルがオフになっている', async () => {
+    vi.mocked(useTheme).mockReturnValue({
+      setTheme: mockSetTheme,
+      resolvedTheme: undefined,
+    } as any);
+
+    render(<ThemeSwitcher />);
+
+    await waitFor(() => {
+      const checkbox = screen.getByRole('checkbox') as HTMLInputElement;
+      expect(checkbox.checked).toBe(false);
+    });
+  });
+
   it('トグルをオンにするとsetThemeがdarkで呼ばれる', async () => {
     vi.mocked(useTheme).mockReturnValue({
       setTheme: mockSetTheme,
@@ -90,14 +146,16 @@ describe('ThemeSwitcher', () => {
     const user = userEvent.setup();
     render(<ThemeSwitcher />);
 
+    // トグルが有効化されるまで待つ
     await waitFor(() => {
-      expect(screen.getByRole('checkbox')).toBeInTheDocument();
+      expect(screen.getByRole('checkbox')).not.toBeDisabled();
     });
 
     const checkbox = screen.getByRole('checkbox');
     await user.click(checkbox);
 
     expect(mockSetTheme).toHaveBeenCalledWith('dark');
+    expect(mockSetTheme).toHaveBeenCalledTimes(1);
   });
 
   it('トグルをオフにするとsetThemeがlightで呼ばれる', async () => {
@@ -109,13 +167,15 @@ describe('ThemeSwitcher', () => {
     const user = userEvent.setup();
     render(<ThemeSwitcher />);
 
+    // トグルが有効化されるまで待つ
     await waitFor(() => {
-      expect(screen.getByRole('checkbox')).toBeInTheDocument();
+      expect(screen.getByRole('checkbox')).not.toBeDisabled();
     });
 
     const checkbox = screen.getByRole('checkbox');
     await user.click(checkbox);
 
     expect(mockSetTheme).toHaveBeenCalledWith('light');
+    expect(mockSetTheme).toHaveBeenCalledTimes(1);
   });
 });

@@ -529,3 +529,40 @@ DockerとVercelを併用した開発における、依存関係（npmパッケ�
     - `next/link`のモックに`aria-disabled`を追加し、アクセシビリティ属性のテストを可能に。
     - `Typography`のモックを文字列要素と関数コンポーネントで適切に分岐する安全な実装に修正。
   - **結果**: 全55テストがパス。Header関連コンポーネントの品質と保守性が向上。
+
+## 2025-10-22 (Part 2): Header関連のリファクタリング
+
+- **コードレビューの実施**:
+  - Header関連コンポーネントを対象に、統一感・保守性・ベストプラクティスの観点から包括的なコードレビューを実施。
+  - **指摘事項**:
+    1. `Header.tsx:84`でクォートがシングルとダブルで不統一
+    2. ロゴのDOMコードが2箇所で重複（保守性の低下）
+    3. HeaderNavがServer Componentである必要性が不明確（責務の曖昧さ）
+
+- **クォートの統一**:
+  - `Header.tsx:84`の`className`をシングルクォートからダブルクォートに統一。
+  - プロジェクト全体でのコーディング規約を徹底。
+
+- **HeaderLogoコンポーネントの新規作成**:
+  - ロゴ表示ロジックを`HeaderLogo.tsx`として独立したコンポーネントに抽出。
+  - **主な仕様**:
+    - テーマに応じて自動的に切り替わる2枚重ねのロゴ実装
+    - `priority`プロパティをオプショナルで受け取り、重要度に応じた画像読み込みを制御
+    - ヘッダー内（`priority={true}`）とモバイルメニュー内（`priority={false}`）で使い分け
+  - **内部最適化の段階的実施**:
+    1. 初期実装: 2つのImageタグをそのまま配置
+    2. 第1段階: 差分のみを配列（`LogoConfig[]`）で管理し、`map`で共通レンダリング
+    3. 第2段階: 共通クラス（`absolute inset-0 transition-opacity duration-200`）を定数`COMMON_CLASS`として抽出し、差分は`opacityClass`のみを保持
+  - **結果**: 保守性が大幅に向上。ロゴ関連の変更は`HeaderLogo.tsx`1ファイルの修正で完結する構造に。
+
+- **HeaderNavのClient Component化**:
+  - **背景**:
+    - `x-pathname`（middleware経由でのpathname渡し）は非推奨（CLAUDE.mdルール）
+    - HeaderNavがServer Componentである必要性がなく、責務が曖昧
+  - **実施内容**:
+    - `HeaderNav.tsx`に`'use client'`ディレクティブを追加
+    - これにより、Header全体がClient Componentとして統一され、構造がシンプルに
+  - **構造の変化**:
+    - Before: `Header (Client) → HeaderNav (Server) → HeaderNavigationItem (Client)`
+    - After: `Header (Client) → HeaderNav (Client) → HeaderNavigationItem (Client)`
+  - **結果**: 責務が明確化され、保守しやすいシンプルな構造に改善。

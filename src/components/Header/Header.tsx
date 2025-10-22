@@ -2,14 +2,12 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { ThemeSwitcher } from './ThemeSwitcher';
 import { HeaderNav } from './HeaderNav';
+import { HeaderLogo } from './HeaderLogo';
 import { HamburgerIcon } from '@/components/icons/HamburgerIcon';
 import { Typography } from '@/components/Typography/Typography';
-import logoBlack from '@/public/logo/logo-black.png';
-import logoWhite from '@/public/logo/logo-white.png';
 import { BaseLink } from '@/components/Link/BaseLink';
 import { ExternalLink } from '@/components/Link/ExternalLink';
 
@@ -28,27 +26,7 @@ export const Header = (): React.ReactElement => {
         <div className="relative flex justify-between items-center px-2 py-4 sp:py-6 border-b-2 border-foreground-light dark:border-foreground-dark">
           {/* Left */}
           <Link href="/" className="flex items-center gap-1">
-            <div className="relative w-6 h-6">
-              <Image
-                src={logoBlack}
-                alt="STUDIO - TAP Logo"
-                width={24}
-                height={24}
-                quality={100}
-                priority
-                className="absolute inset-0 dark:opacity-0 transition-opacity duration-200"
-              />
-              <Image
-                src={logoWhite}
-                alt=""
-                width={24}
-                height={24}
-                quality={100}
-                priority
-                aria-hidden="true"
-                className="absolute inset-0 opacity-0 dark:opacity-100 transition-opacity duration-200"
-              />
-            </div>
+            <HeaderLogo priority />
             <Typography as="h1" variant="logo-text" className="font-bold">
               STUDIO-TAP
             </Typography>
@@ -81,7 +59,7 @@ export const Header = (): React.ReactElement => {
 
             {/* Contact Links */}
             <div className="flex flex-col items-center gap-2 mt-4">
-              <Typography as="p" variant="body-normal" className='font-light'>
+              <Typography as="p" variant="body-normal" className="font-light">
                 Email: <BaseLink href="mailto:camphora@studio-tap.com">camphora@studio-tap.com</BaseLink><br />
                 Form: <ExternalLink href="https://forms.gle/1iG7xoAD34fJ8hjy5">Google Form</ExternalLink>
               </Typography>
@@ -95,25 +73,7 @@ export const Header = (): React.ReactElement => {
 
           {/* Site Logo & Name */}
           <div className="flex flex-col items-center gap-2">
-            <div className="relative w-6 h-6">
-              <Image
-                src={logoBlack}
-                alt="STUDIO - TAP Logo"
-                width={24}
-                height={24}
-                quality={100}
-                className="absolute inset-0 dark:opacity-0 transition-opacity duration-200"
-              />
-              <Image
-                src={logoWhite}
-                alt=""
-                width={24}
-                height={24}
-                quality={100}
-                aria-hidden="true"
-                className="absolute inset-0 opacity-0 dark:opacity-100 transition-opacity duration-200"
-              />
-            </div>
+            <HeaderLogo />
             <Typography as="p" variant="logo-text" className="font-bold">
               STUDIO-TAP
             </Typography>

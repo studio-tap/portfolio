@@ -223,5 +223,11 @@ npm run build
 
 ### 最新版タスク
 ・aboutイメージについて、複数画像用意し、ランダム表示→リリース後対応
-・リリース対応→Dockerにまとめて、GoogleのCloud Runを使用する
+・リリース対応→Dockerにまとめて、GoogleのCloud Runを使用する →Vercelに決定
 ・fontの読み込みラグについて → かなり読み込みに時間がかかる
+
+### 改善検討メモ（2025-10-21）
+- Headerロゴとテーマスイッチャーの初期描画遅延を解消する方針。
+  - PNGロゴは固定サイズで二枚重ね、`opacity` 切り替えで描画。`fetchpriority="high"` と `priority` を付与し、CLS=0のままLCP候補として先読みする。
+  - ThemeSwitcherは `mounted` 待ちを廃止し、`resolvedTheme` 未確定でも見た目を描画。操作のみ一時的に無効化し、`next-themes` の `<html class>` 付与に加えてフォールバック用スクリプトも検討する。
+  - 暫定テーマで `light` を強制表示せず、初回ペイントから完成形を維持。Hydration後も視覚差分が出ないよう設計する。

@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useTheme } from 'next-themes';
 import { usePathname } from 'next/navigation';
 import { ThemeSwitcher } from './ThemeSwitcher';
 import { HeaderNav } from './HeaderNav';
@@ -15,14 +14,8 @@ import { BaseLink } from '@/components/Link/BaseLink';
 import { ExternalLink } from '@/components/Link/ExternalLink';
 
 export const Header = (): React.ReactElement => {
-  const { resolvedTheme } = useTheme();
   const pathname = usePathname();
-  const [mounted, setMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   // ページ遷移完了時にメニューを閉じる
   useEffect(() => {
@@ -35,16 +28,27 @@ export const Header = (): React.ReactElement => {
         <div className="relative flex justify-between items-center px-2 py-4 sp:py-6 border-b-2 border-foreground-light dark:border-foreground-dark">
           {/* Left */}
           <Link href="/" className="flex items-center gap-1">
-            {mounted && (
+            <div className="relative w-6 h-6">
               <Image
-                src={resolvedTheme === 'dark' ? logoWhite : logoBlack}
+                src={logoBlack}
                 alt="STUDIO - TAP Logo"
-                width={24} // 1.5rem = 24px
+                width={24}
                 height={24}
                 quality={100}
                 priority
+                className="absolute inset-0 dark:opacity-0 transition-opacity duration-200"
               />
-            )}
+              <Image
+                src={logoWhite}
+                alt=""
+                width={24}
+                height={24}
+                quality={100}
+                priority
+                aria-hidden="true"
+                className="absolute inset-0 opacity-0 dark:opacity-100 transition-opacity duration-200"
+              />
+            </div>
             <Typography as="h1" variant="logo-text" className="font-bold">
               STUDIO-TAP
             </Typography>
@@ -91,15 +95,25 @@ export const Header = (): React.ReactElement => {
 
           {/* Site Logo & Name */}
           <div className="flex flex-col items-center gap-2">
-            {mounted && (
+            <div className="relative w-6 h-6">
               <Image
-                src={resolvedTheme === 'dark' ? logoWhite : logoBlack}
+                src={logoBlack}
                 alt="STUDIO - TAP Logo"
                 width={24}
                 height={24}
                 quality={100}
+                className="absolute inset-0 dark:opacity-0 transition-opacity duration-200"
               />
-            )}
+              <Image
+                src={logoWhite}
+                alt=""
+                width={24}
+                height={24}
+                quality={100}
+                aria-hidden="true"
+                className="absolute inset-0 opacity-0 dark:opacity-100 transition-opacity duration-200"
+              />
+            </div>
             <Typography as="p" variant="logo-text" className="font-bold">
               STUDIO-TAP
             </Typography>

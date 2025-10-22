@@ -10,16 +10,12 @@ export const ThemeSwitcher = (): React.ReactElement => {
   const { setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
-  // useEffect only runs on the client, so now we can show the UI
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  if (!mounted) {
-    // ハイドレーションエラーを防ぐため、マウントされるまでは何も表示しない
-    return <div className="w-[76px]" />; // 仮のスペーサー
-  }
-
+  // SSR時はresolvedThemeがundefinedなので、falseとして扱う
+  // これによりSSR時はライトモードの見た目で描画される
   const isDarkMode = resolvedTheme === 'dark';
 
   const handleToggleChange = (checked: boolean) => {
@@ -34,6 +30,8 @@ export const ThemeSwitcher = (): React.ReactElement => {
         className="mx-1"
         checked={isDarkMode}
         onChange={handleToggleChange}
+        ariaLabel="ダークモード切り替え"
+        disabled={!mounted}
       />
 
       <MoonIcon className="text-inactive dark:text-navy" />

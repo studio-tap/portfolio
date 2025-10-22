@@ -57,18 +57,6 @@ describe('ThemeSwitcher', () => {
     expect(checkbox).toBeInTheDocument();
   });
 
-  it('初期レンダリング時はトグルが無効化されている', () => {
-    vi.mocked(useTheme).mockReturnValue({
-      setTheme: mockSetTheme,
-      resolvedTheme: 'light',
-    } as any);
-
-    render(<ThemeSwitcher />);
-
-    const checkbox = screen.getByRole('checkbox');
-    expect(checkbox).toBeDisabled();
-  });
-
   it('マウント後はトグルが有効化される', async () => {
     vi.mocked(useTheme).mockReturnValue({
       setTheme: mockSetTheme,

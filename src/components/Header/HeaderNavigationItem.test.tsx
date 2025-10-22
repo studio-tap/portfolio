@@ -8,18 +8,32 @@ vi.mock('next/navigation', () => ({
   usePathname: vi.fn(),
 }));
 
+// next/linkのモック
+vi.mock('next/link', () => ({
+  default: ({ href, children, className, 'aria-disabled': ariaDisabled, ...props }: any) => (
+    <a href={href} className={className} aria-disabled={ariaDisabled} {...props}>
+      {children}
+    </a>
+  ),
+}));
+
 // Typographyコンポーネントのモック
 vi.mock('@/components/Typography/Typography', () => ({
-  Typography: ({ children, as: Component = 'span', href, className, 'aria-disabled': ariaDisabled }: any) => {
-    if (Component === 'a' || (Component as any)?.name === 'Link') {
-      return (
-        <a href={href} className={className} aria-disabled={ariaDisabled}>
-          {children}
-        </a>
-      );
+  Typography: ({ children, as: Component = 'span', href, className, 'aria-disabled': ariaDisabled, ...props }: any) => {
+    // 文字列コンポーネントの場合は適切な属性のみ渡す
+    if (typeof Component === 'string') {
+      const Element = Component as any;
+      const elementProps: any = { className, 'aria-disabled': ariaDisabled, ...props };
+      // aタグの場合のみhrefを追加
+      if (Component === 'a' && href) {
+        elementProps.href = href;
+      }
+      return <Element {...elementProps}>{children}</Element>;
     }
+
+    // 関数コンポーネント（Linkなど）はそのまま渡す
     return (
-      <Component className={className} aria-disabled={ariaDisabled}>
+      <Component href={href} className={className} aria-disabled={ariaDisabled} {...props}>
         {children}
       </Component>
     );

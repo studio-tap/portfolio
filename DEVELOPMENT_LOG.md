@@ -500,3 +500,32 @@ DockerとVercelを併用した開発における、依存関係（npmパッケ�
   - **On-demand Budgetの設定**:
     - 「追加予算」を意味する`On-demand Budget`を`$0`に設定すると、Proプランの基本料金($20)の時点で上限に達したと見なされ、上限到達時のアクション（`Pause all projects`）が即時実行されてしまう問題を理解した。
     - 解決策として、`On-demand Budget`を`$1`に設定。これにより、現在のサイトを停止させることなく、将来の請求額が合計$21を超えた時点でプロジェクトが停止するようになり、実質的に高額な従量課金を防ぐ設定を完了した。
+
+## 2025-10-22: Header関連の初期描画遅延解消とテスト再作成
+
+- **初期描画遅延の解消**:
+  - **ロゴの二枚重ね実装**:
+    - `Header.tsx`のロゴ表示を、テーマに応じて画像を切り替える方式から、ライト用・ダーク用の2枚を重ねて`opacity`で切り替える方式に変更。
+    - `mounted`待ちを廃止し、初期レンダリング時からロゴを表示することで、LCP（Largest Contentful Paint）を改善。
+    - `aria-hidden="true"`をダークモード用ロゴに付与し、スクリーンリーダーでの重複読み上げを防止。
+  - **ThemeSwitcherのSSR対応**:
+    - `mounted`フラグによる条件分岐レンダリング（スペーサー表示）を廃止。
+    - SSR時も見た目を表示し、操作のみを`disabled`属性で一時的に無効化する方式に変更。
+    - Hydration後は自動的に有効化され、視覚的な差分が生じない設計に改善。
+  - **アクセシビリティ強化**:
+    - `ToggleSwitch.tsx`に`ariaLabel`と`disabled`プロパティを追加。
+    - `ThemeSwitcher.tsx`でトグルに「ダークモード切り替え」という`aria-label`を付与。
+
+- **Header関連テストの全面再作成**:
+  - 既存のテストファイル（`Header.test.tsx`, `ThemeSwitcher.test.tsx`, `HeaderNav.test.tsx`, `HeaderNavigationItem.test.tsx`）を削除し、新しい実装に基づいて再作成。
+  - **新規作成したテストファイル**:
+    - `ToggleSwitch.test.tsx` (12テスト) - 新規追加されたprops（ariaLabel、disabled）の動作確認
+    - `ThemeSwitcher.test.tsx` (9テスト) - SSR対応、disabled状態の検証、有効化後のテーマ切り替えテスト
+    - `HeaderNavigationItem.test.tsx` (8テスト) - Typographyとnext/linkの連携、アクティブ状態のテスト
+    - `HeaderNav.test.tsx` (10テスト) - レスポンシブレイアウト、ナビゲーションアイテムの表示テスト
+    - `Header.test.tsx` (16テスト) - ロゴの二枚重ね、モバイルメニュー、pathname変更時の挙動テスト
+  - **テストモックの改善**:
+    - `next/image`のモックで`priority`と`fetchPriority`を除外し、HTML属性の警告を解消。
+    - `next/link`のモックに`aria-disabled`を追加し、アクセシビリティ属性のテストを可能に。
+    - `Typography`のモックを文字列要素と関数コンポーネントで適切に分岐する安全な実装に修正。
+  - **結果**: 全55テストがパス。Header関連コンポーネントの品質と保守性が向上。

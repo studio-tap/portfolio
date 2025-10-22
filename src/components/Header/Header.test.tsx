@@ -65,10 +65,9 @@ vi.mock('@/components/Link/ExternalLink', () => ({
 
 // next/imageのモック
 vi.mock('next/image', () => ({
-  default: ({ src, alt, ...props }: any) => {
-    // srcがオブジェクトの場合（StaticImageData）はsrc.srcを使用
-    const imgSrc = typeof src === 'object' && src.src ? src.src : src;
-    return <img src={imgSrc} alt={alt} {...props} />;
+  default: ({ src, alt, priority, fetchPriority, ...rest }: any) => {
+    const imgSrc = typeof src === 'object' && src?.src ? src.src : src;
+    return <img src={imgSrc} alt={alt} {...rest} />;
   },
 }));
 
@@ -101,20 +100,20 @@ describe('Header', () => {
   });
 
   it('ロゴ画像が複数レンダリングされる', () => {
-    render(<Header />);
+    const { container } = render(<Header />);
 
-    const images = screen.getAllByRole('img');
-    // ヘッダー内のロゴ2枚 + モバイルメニュー内のロゴ2枚（非表示時も含む）= 4枚
-    // ただし、モバイルメニューは非表示なので、実際には2枚のみ表示
-    expect(images.length).toBeGreaterThanOrEqual(2);
+    const images = container.querySelectorAll('img');
+    // ヘッダー内のロゴ2枚（aria-hidden含む）
+    // モバイルメニューは閉じているのでDOMに存在しない
+    expect(images.length).toBe(2);
   });
 
   it('ロゴのaltが正しく設定される', () => {
-    render(<Header />);
+    const { container } = render(<Header />);
 
-    const images = screen.getAllByRole('img');
-    const logoWithAlt = images.find((img) => img.getAttribute('alt') === 'STUDIO - TAP Logo');
-    const logoWithoutAlt = images.find((img) => img.getAttribute('alt') === '');
+    const images = container.querySelectorAll('img');
+    const logoWithAlt = Array.from(images).find((img) => img.getAttribute('alt') === 'STUDIO - TAP Logo');
+    const logoWithoutAlt = Array.from(images).find((img) => img.getAttribute('alt') === '');
 
     expect(logoWithAlt).toBeInTheDocument();
     expect(logoWithoutAlt).toBeInTheDocument();
@@ -220,10 +219,10 @@ describe('Header', () => {
   });
 
   it('aria-hiddenがダークモード用ロゴに適用される', () => {
-    render(<Header />);
+    const { container } = render(<Header />);
 
-    const images = screen.getAllByRole('img', { hidden: true });
-    const hiddenLogo = images.find((img) => img.getAttribute('aria-hidden') === 'true');
+    const images = container.querySelectorAll('img');
+    const hiddenLogo = Array.from(images).find((img) => img.getAttribute('aria-hidden') === 'true');
     expect(hiddenLogo).toBeInTheDocument();
   });
 });

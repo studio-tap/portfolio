@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { usePathname } from 'next/navigation';
 import { HeaderNavigationItem } from './HeaderNavigationItem';
 
 type NavItem = {
@@ -13,6 +14,9 @@ type Props = {
 };
 
 export const HeaderNav = ({ isMobile = false }: Props): React.ReactElement => {
+  // ナビゲーション全体で一度だけpathnameを取得
+  const pathname = usePathname();
+
   const navItems: NavItem[] = [
     { href: '/', text: 'WORKS' },
     { href: '/about', text: 'ABOUT' },
@@ -26,6 +30,7 @@ export const HeaderNav = ({ isMobile = false }: Props): React.ReactElement => {
             key={item.href}
             href={item.href}
             text={item.text}
+            isActive={pathname === item.href}
           />
         ))}
       </ul>

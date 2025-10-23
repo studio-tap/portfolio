@@ -2,18 +2,15 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { Typography } from '@/components/Typography/Typography';
 
 type HeaderNavigationItemProps = {
   href: string;
+  isActive: boolean;
   text: string;
 };
 
-export const HeaderNavigationItem = ({ href, text }: HeaderNavigationItemProps): React.ReactElement => {
-  const pathname = usePathname();
-  const isActive = pathname === href;
-
+export const HeaderNavigationItem = ({ href, isActive, text }: HeaderNavigationItemProps): React.ReactElement => {
   return (
     <li>
       <Typography

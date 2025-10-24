@@ -586,3 +586,33 @@ DockerとVercelを併用した開発における、依存関係（npmパッケ�
     2. `useEffect`内で`if (!pathname) return;`を追加し、SSR初期値（null）の場合は処理をスキップ
     3. `setActivePath`を`(prev) => (prev === pathname ? prev : pathname)`に変更し、値が変わったときのみ更新
   - **結果**: 不要な再レンダーが防止され、ハンバーガーメニューのアニメーションがスムーズになった。
+
+## 2025-10-25: ナビゲーションのアーキテクチャ刷新
+
+- **レイアウトの責務をページ側へ移動**:
+  - **背景**: usePathname()を使用したクライアント側の動的なパス取得は、ISR時の初期HTMLに正しいアクティブ状態を反映できない問題を抱えていた。
+  - **決断**: TOPとABOUTは固定ルートであるため、各ページで「自分が現在地である」と静的に宣言する方式に全面的に刷新することを決定。
+
+- **実装内容**:
+  - **layout.tsxの簡素化**:
+    - `src/app/layout.tsx`からHeaderとmainタグを完全に削除。
+    - ThemeProviderと共通ラッパ（min-h-screen, flex, 背景色など）のみを残し、レイアウトの責務を最小化。
+  - **Headerのprops拡張**:
+    - `src/components/Header/Header.tsx`に`currentPath: string`プロパティを追加。
+    - usePathname()への依存を削除し、親から渡されたcurrentPathを使用する設計に変更。
+  - **HeaderNavの単純化**:
+    - `src/components/Header/HeaderNav.tsx`からusePathname()、useState、useEffectを全て削除。
+    - currentPathをpropsで受け取り、シンプルに`currentPath === item.href`で判定する形に変更。
+    - クライアント側の状態管理が不要になり、コンポーネントがより予測可能で堅牢になった。
+  - **各ページでのHeader配置**:
+    - `src/app/page.tsx`と`src/app/about/page.tsx`の両方で、以下を実施：
+      1. ページ最上部に`const CURRENT_PATH = '/'`（またはABOUTは`'/about'`）を定義
+      2. `<Header currentPath={CURRENT_PATH} />`を直接呼び出し
+      3. `<main className="flex-1 flex flex-col">`タグを各ページで管理
+      4. React Fragmentで`<Header>`と`<main>`をラップし、単一のルート要素として返す
+
+- **設計の利点**:
+  - **ISR対応**: 各ページのHTMLがビルド時に生成される際、既に正しいcurrentPathが埋め込まれているため、初期HTMLから正しいアクティブ状態が表示される。
+  - **ハイドレーション問題の完全排除**: usePathname()の非同期性やSSR時の空値問題から完全に解放された。
+  - **シンプルで予測可能**: 各ページが自身の現在地を明示的に宣言する、理解しやすく保守しやすい構造。
+  - **セマンティックHTMLの維持**: mainタグが各ページで適切に配置され、アクセシビリティとSEOの観点からも正しい構造を維持。

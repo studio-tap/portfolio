@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono, Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
-import { Header } from "@/components/Header/Header";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 
 const ibmPlexMono = IBM_Plex_Mono({
@@ -50,8 +49,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <div className="bg-background-light text-foreground-light dark:bg-background-dark dark:text-foreground-dark flex flex-col min-h-screen">
-            <Header />
-            <main className="flex-1 flex flex-col">{children}</main>
+            {children}
           </div>
         </ThemeProvider>
       </body>

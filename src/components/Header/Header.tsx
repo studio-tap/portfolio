@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { ThemeSwitcher } from './ThemeSwitcher';
 import { HeaderNav } from './HeaderNav';
 import { HeaderLogo } from './HeaderLogo';
@@ -11,14 +10,17 @@ import { Typography } from '@/components/Typography/Typography';
 import { BaseLink } from '@/components/Link/BaseLink';
 import { ExternalLink } from '@/components/Link/ExternalLink';
 
-export const Header = (): React.ReactElement => {
-  const pathname = usePathname();
+type Props = {
+  currentPath: string;
+};
+
+export const Header = ({ currentPath }: Props): React.ReactElement => {
   const [isOpen, setIsOpen] = useState(false);
 
   // ページ遷移完了時にメニューを閉じる
   useEffect(() => {
     setIsOpen(false);
-  }, [pathname]);
+  }, [currentPath]);
 
   return (
     <>
@@ -34,7 +36,7 @@ export const Header = (): React.ReactElement => {
 
           {/* Center (PC nav) */}
           <div className="hidden sm:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-            <HeaderNav />
+            <HeaderNav currentPath={currentPath} />
           </div>
 
           {/* Right */}
@@ -55,7 +57,7 @@ export const Header = (): React.ReactElement => {
         <div className="sm:hidden fixed inset-0 bg-background-light dark:bg-background-dark z-40 flex flex-col items-center justify-between py-12">
           {/* Main Navigation */}
           <div className="flex flex-col items-center gap-8 flex-1 justify-center">
-            <HeaderNav isMobile />
+            <HeaderNav isMobile currentPath={currentPath} />
 
             {/* Contact Links */}
             <div className="flex flex-col items-center gap-2 mt-4">

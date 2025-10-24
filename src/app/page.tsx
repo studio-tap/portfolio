@@ -1,8 +1,11 @@
 import { getWorks } from "@/lib/microcms";
 import { MainInner } from "@/components/layout/MainInner";
 import { WorksMasonry } from "@/components/Work/WorksMasonry";
+import { Header } from "@/components/Header/Header";
 
 export const revalidate = 3600; // 1時間ごとに再検証
+
+const CURRENT_PATH = '/';
 
 export default async function Home() {
   // サーバー側でデータ取得
@@ -10,8 +13,13 @@ export default async function Home() {
   const works = data.contents;
 
   return (
-    <MainInner>
-      <WorksMasonry works={works} />
-    </MainInner>
+    <>
+      <Header currentPath={CURRENT_PATH} />
+      <main className="flex-1 flex flex-col">
+        <MainInner>
+          <WorksMasonry works={works} />
+        </MainInner>
+      </main>
+    </>
   );
 }

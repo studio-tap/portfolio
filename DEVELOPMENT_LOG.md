@@ -566,3 +566,14 @@ DockerとVercelを併用した開発における、依存関係（npmパッケ�
     - Before: `Header (Client) → HeaderNav (Server) → HeaderNavigationItem (Client)`
     - After: `Header (Client) → HeaderNav (Client) → HeaderNavigationItem (Client)`
   - **結果**: 責務が明確化され、保守しやすいシンプルな構造に改善。
+
+## 2025-10-24: HeaderNavのアクティブ判定問題の解消
+
+- **SSR初期描画におけるpathname問題の解決**:
+  - **問題**: SSR初期描画時にpathnameが空のまま固定され、PC/SPいずれかのヘッダーナビでアクティブ表示が反映されない問題が発生。
+  - **原因**: `usePathname`で取得したpathnameをそのまま使用していたため、ハイドレーション前後で状態が同期されず、再レンダーが発生しなかった。
+  - **解決策**: `HeaderNav.tsx`を修正し、以下の対応を実施：
+    1. `useState`を追加し、`activePath`というstateを新規作成
+    2. `useEffect`でハイドレーション後に`pathname`を`activePath`に写し、再レンダーを強制
+    3. アクティブ判定を`pathname === item.href`から`activePath === item.href`に変更
+  - **結果**: クライアント側でハイドレーション後に必ずstateが更新されるようになり、PC/SPどちらのヘッダーナビでもアクティブ表示が確実に反映されるようになった。

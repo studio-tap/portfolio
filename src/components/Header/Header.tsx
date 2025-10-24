@@ -23,7 +23,7 @@ export const Header = (): React.ReactElement => {
   return (
     <>
       <header className="sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-lg">
-        <div className="relative flex justify-between items-center px-2 py-4 sp:py-6 border-b-2 border-foreground-light dark:border-foreground-dark">
+        <div className="relative flex justify-between items-center px-3 py-3 sp:py-6 border-b-2 border-foreground-light dark:border-foreground-dark">
           {/* Left */}
           <Link href="/" className="flex items-center gap-1">
             <HeaderLogo priority />
@@ -33,16 +33,16 @@ export const Header = (): React.ReactElement => {
           </Link>
 
           {/* Center (PC nav) */}
-          <div className="hidden sp:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <div className="hidden sm:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
             <HeaderNav />
           </div>
 
           {/* Right */}
           <div>
-            <div className="hidden sp:block">
+            <div className="hidden sm:block">
               <ThemeSwitcher />
             </div>
-            <div className="sp:hidden">
+            <div className="sm:hidden">
               <HamburgerIcon isOpen={isOpen} onClick={() => setIsOpen(!isOpen)} />
             </div>
           </div>
@@ -52,7 +52,7 @@ export const Header = (): React.ReactElement => {
 
       {/* SP Menu Overlay */}
       {isOpen && (
-        <div className="sp:hidden fixed inset-0 bg-background-light dark:bg-background-dark z-40 flex flex-col items-center justify-between py-12">
+        <div className="sm:hidden fixed inset-0 bg-background-light dark:bg-background-dark z-40 flex flex-col items-center justify-between py-12">
           {/* Main Navigation */}
           <div className="flex flex-col items-center gap-8 flex-1 justify-center">
             <HeaderNav isMobile />

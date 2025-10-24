@@ -5,14 +5,14 @@ import { Header } from "@/components/Header/Header";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 
 const ibmPlexMono = IBM_Plex_Mono({
-  weight: ['100', '300', '400', '500', '700'],
+  weight: ['300', '400', '500', '700'],
   subsets: ['latin'],
   variable: '--font-ibm-plex-mono',
   display: 'swap',
 });
 
 const notoSansJP = Noto_Sans_JP({
-  weight: ['100', '300', '400', '500', '700', '900'],
+  weight: ['300', '400', '500', '700'],
   subsets: ['latin'],
   variable: '--font-noto-sans-jp',
   display: 'swap',

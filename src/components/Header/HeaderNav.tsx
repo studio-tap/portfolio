@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { HeaderNavigationItem } from './HeaderNavigationItem';
 
@@ -16,6 +16,13 @@ type Props = {
 export const HeaderNav = ({ isMobile = false }: Props): React.ReactElement => {
   // ナビゲーション全体で一度だけpathnameを取得
   const pathname = usePathname();
+  // SSR時の空pathname問題を回避するため、クライアント側でstateに写す
+  const [activePath, setActivePath] = useState<string | null>(null);
+
+  // ハイドレーション後にpathnameをstateへ反映して再レンダーを強制
+  useEffect(() => {
+    setActivePath(pathname);
+  }, [pathname]);
 
   const navItems: NavItem[] = [
     { href: '/', text: 'WORKS' },
@@ -30,7 +37,7 @@ export const HeaderNav = ({ isMobile = false }: Props): React.ReactElement => {
             key={item.href}
             href={item.href}
             text={item.text}
-            isActive={pathname === item.href}
+            isActive={activePath === item.href}
           />
         ))}
       </ul>

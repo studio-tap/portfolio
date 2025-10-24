@@ -19,8 +19,8 @@ export const WorksMasonry = ({ works }: Props): ReactElement => {
   return (
     <Masonry
       breakpointCols={breakpointColumnsObj}
-      className={styles['my-masonry-grid']}
-      columnClassName={styles['my-masonry-grid_column']}
+      className={styles['masonry-grid']}
+      columnClassName={styles['masonry-grid_column']}
     >
       {works.map((work) => (
         <WorkCard key={work.id} work={work} />

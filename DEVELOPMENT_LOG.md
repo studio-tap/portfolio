@@ -577,3 +577,12 @@ DockerとVercelを併用した開発における、依存関係（npmパッケ�
     2. `useEffect`でハイドレーション後に`pathname`を`activePath`に写し、再レンダーを強制
     3. アクティブ判定を`pathname === item.href`から`activePath === item.href`に変更
   - **結果**: クライアント側でハイドレーション後に必ずstateが更新されるようになり、PC/SPどちらのヘッダーナビでもアクティブ表示が確実に反映されるようになった。
+
+- **pathname取得ロジックの最適化**:
+  - **問題**: 上記の実装後、不要な再レンダーが発生し、ハンバーガーメニューのボタンアニメーションに影響が出ていた。
+  - **原因**: `activePath`の初期値が`null`固定で、`useEffect`内で毎回無条件に`setActivePath(pathname)`を実行していたため、値が同じでも再レンダーが発生していた。
+  - **解決策**: `HeaderNav.tsx`を以下のように最適化：
+    1. `activePath`の初期値を`pathname ?? null`に変更（初回レンダリング時に既にpathnameがあればそれを使う）
+    2. `useEffect`内で`if (!pathname) return;`を追加し、SSR初期値（null）の場合は処理をスキップ
+    3. `setActivePath`を`(prev) => (prev === pathname ? prev : pathname)`に変更し、値が変わったときのみ更新
+  - **結果**: 不要な再レンダーが防止され、ハンバーガーメニューのアニメーションがスムーズになった。

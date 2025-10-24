@@ -1,14 +1,31 @@
-.my-masonry-grid {
+.masonry-grid {
   display: flex;
-  margin-left: -32px; /* gutter size offset */
+  margin-left: -3rem; /* gutter size offset */
   width: auto;
 }
-.my-masonry-grid_column {
-  padding-left: 32px; /* gutter size */
+.masonry-grid_column {
+  padding-left: 3rem; /* gutter size */
   background-clip: padding-box;
 }
 
 /* card wrapper */
-.my-masonry-grid_column > article {
-  margin-bottom: 32px;
+.masonry-grid_column > article {
+  margin-bottom: 3rem;
+}
+
+@media (max-width: 767px) {
+  .masonry-grid {
+    flex-direction: column;
+    margin-left: 0;
+    width: 100% !important;
+  }
+
+  .masonry-grid_column {
+    padding-left: 0;
+    width: 100% !important;
+  }
+
+  .masonry-grid_column > article {
+    width: 100% !important;
+  }
 }

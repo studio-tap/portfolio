@@ -19,10 +19,17 @@ export const HeaderNav = ({ isMobile = false }: Props): React.ReactElement => {
   // SSR時の空pathname問題を回避するため、クライアント側でstateに写す
   const [activePath, setActivePath] = useState<string | null>(pathname ?? null);
 
-  // ハイドレーション後にpathnameをstateへ反映（値が変わったときのみ更新）
   useEffect(() => {
-    if (!pathname) return; // SSR初期値（null）なら何もしない
-    setActivePath((prev) => (prev === pathname ? prev : pathname)); // 値が変わったときだけ更新
+    if (pathname) {
+  // ハイドレーション後にpathnameをstateへ反映（値が変わったときのみ更新）
+      setActivePath((prev) => (prev === pathname ? prev : pathname));
+      return;
+    }
+
+    if (typeof window !== 'undefined') {
+      const fallback = window.location.pathname;
+      setActivePath((prev) => (prev === fallback ? prev : fallback));
+    }
   }, [pathname]);
 
   const navItems: NavItem[] = [

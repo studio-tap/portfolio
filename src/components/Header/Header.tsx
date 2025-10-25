@@ -44,7 +44,7 @@ export const Header = ({ currentPath }: Props): React.ReactElement => {
             <div className="hidden sm:block">
               <ThemeSwitcher />
             </div>
-            <div className="sm:hidden">
+            <div className="sm:hidden flex item-center">
               <HamburgerIcon isOpen={isOpen} onClick={() => setIsOpen(!isOpen)} />
             </div>
           </div>

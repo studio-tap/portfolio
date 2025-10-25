@@ -9,13 +9,21 @@ export const HamburgerIcon = ({ isOpen, className, ...rest }: Props) => {
   // --- 基本設計 (px) ---
   const containerPx = 24;
   const lineThickness = 2;
-  // 全ての余白（上下、線間）を均等にするための計算
-  const margin = (containerPx - lineThickness * 3) / 4; // (24 - 6) / 4 = 4.5px
 
   // --- Y座標を計算 ---
-  const topY = margin;
-  const middleY = margin + lineThickness + margin;
-  const bottomY = middleY + lineThickness + margin;
+  const topY = (containerPx - lineThickness * 3) / 4;
+  const middleY = topY + (lineThickness + topY);
+  const bottomY = middleY + (lineThickness + topY);
+
+  const crossScale = 1 / 1.4142135623730951 ;
+
+  const topWidth = containerPx;
+  const middleWidth = topWidth * crossScale;
+  const bottomWidth = middleWidth * crossScale;
+
+  // 中心
+  const centerY = (containerPx - lineThickness) / 2;
+  const crossBottomOffset = (containerPx - (bottomWidth / 2)) - (containerPx / 2)
 
   // --- スタイル定義 ---
   const baseLineStyle: React.CSSProperties = {
@@ -23,35 +31,41 @@ export const HamburgerIcon = ({ isOpen, className, ...rest }: Props) => {
     position: 'absolute',
     height: `${lineThickness}px`,
     backgroundColor: 'currentColor',
-    transition: 'all 0.1s ease-in-out',
+    transition: 'transform 0.1s ease',
   };
-
-  // アニメーション後（'×'の状態）の線の幅と、それを中央に配置するための左右の余白
-  const crossLineWidth = (containerPx + containerPx / 2) / 2;
-  const crossLineMarginX = (containerPx - crossLineWidth) / 2;
 
   const topLineStyle: React.CSSProperties = {
     ...baseLineStyle,
-    top: `${isOpen ? containerPx / 2 - lineThickness / 2 : topY}px`,
-    left: `${isOpen ? crossLineMarginX : 0}px`,
-    width: `${isOpen ? crossLineWidth : containerPx}px`,
-    transform: isOpen ? 'rotate(45deg)' : 'none',
+    top: `${topY}px`,
+    left: '0px',
+    width: `${topWidth}px`,
+    transformOrigin: 'center',
+    transform: isOpen
+      ? `translateY(${centerY - topY}px) rotate(45deg) scaleX(${crossScale})`
+      : 'translate(0) scaleX(1) rotate(0deg)',
   };
 
   const middleLineStyle: React.CSSProperties = {
     ...baseLineStyle,
     top: `${middleY}px`,
     right: '0px',
-    width: `${(containerPx + containerPx / 2) / 2}px`,
+    width: `${middleWidth}px`,
+    transformOrigin: 'right',
     opacity: isOpen ? 0 : 1,
+    transform: isOpen
+    ? `scaleX(${topWidth / middleWidth})`
+    : `scaleX(1)`
   };
 
   const bottomLineStyle: React.CSSProperties = {
     ...baseLineStyle,
-    top: `${isOpen ? containerPx / 2 - lineThickness / 2 : bottomY}px`,
-    right: `${isOpen ? crossLineMarginX : 0}px`,
-    width: `${isOpen ? crossLineWidth : containerPx / 2}px`,
-    transform: isOpen ? 'rotate(-45deg)' : 'none',
+    top: `${bottomY}px`,
+    right: '0px',
+    width: `${bottomWidth}px`,
+    transformOrigin: 'center',
+    transform: isOpen
+      ? `translate(${-crossBottomOffset}px, ${centerY - bottomY}px) rotate(-45deg) scaleX(${middleWidth / bottomWidth})`
+      : 'translate(0) scaleX(1) rotate(0deg)',
   };
 
   return (

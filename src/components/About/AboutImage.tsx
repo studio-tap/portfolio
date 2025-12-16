@@ -1,5 +1,6 @@
-import React from 'react';
 import Image from 'next/image';
+import React from 'react';
+
 import aboutImg from '@/public/about.jpg';
 
 /**
@@ -8,13 +9,13 @@ import aboutImg from '@/public/about.jpg';
  */
 export const AboutImage = (): React.ReactElement => {
   return (
-    <div className="relative flex-grow mt-12 min-h-[540px]">
+    <div className="relative mt-12 min-h-[540px] flex-grow">
       <Image
-        src={aboutImg}
         alt=""
-        fill
         className="object-cover"
+        fill
         priority
+        src={aboutImg}
       />
     </div>
   );

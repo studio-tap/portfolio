@@ -1,10 +1,12 @@
 'use client';
 
-import type { ReactElement } from 'react';
 import Masonry from 'react-masonry-css';
+
 import { WorkCard } from './WorkCard';
 import styles from './WorksMasonry.module.css';
+
 import type { Work } from '@/lib/microcms';
+import type { ReactElement } from 'react';
 
 type Props = {
   works: Work[];
@@ -23,7 +25,10 @@ export const WorksMasonry = ({ works }: Props): ReactElement => {
       columnClassName={styles['masonry-grid_column']}
     >
       {works.map((work) => (
-        <WorkCard key={work.id} work={work} />
+        <WorkCard
+          key={work.id}
+          work={work}
+        />
       ))}
     </Masonry>
   );

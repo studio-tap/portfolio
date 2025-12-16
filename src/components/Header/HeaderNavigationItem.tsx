@@ -1,5 +1,6 @@
-import React from 'react';
 import Link from 'next/link';
+import React from 'react';
+
 import { Typography } from '@/components/Typography/Typography';
 
 type HeaderNavigationItemProps = {
@@ -12,14 +13,11 @@ export const HeaderNavigationItem = ({ href, isActive, text }: HeaderNavigationI
   return (
     <li>
       <Typography
+        aria-disabled={isActive}
         as={Link}
+        className={`p-2 ${isActive ? 'pointer-events-none font-bold' : 'font-light hover-opacity-strong'} `}
         href={href}
         variant="header-nav"
-        className={`
-          p-2
-          ${isActive ? 'font-bold pointer-events-none' : 'font-light hover-opacity-strong'}
-        `}
-        aria-disabled={isActive}
       >
         {text}
       </Typography>

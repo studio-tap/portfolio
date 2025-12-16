@@ -1,14 +1,16 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ThemeSwitcher } from './ThemeSwitcher';
-import { HeaderNav } from './HeaderNav';
+import React, { useEffect, useState } from 'react';
+
 import { HeaderLogo } from './HeaderLogo';
+import { HeaderNav } from './HeaderNav';
+import { ThemeSwitcher } from './ThemeSwitcher';
+
 import { HamburgerIcon } from '@/components/icons/HamburgerIcon';
-import { Typography } from '@/components/Typography/Typography';
 import { BaseLink } from '@/components/Link/BaseLink';
 import { ExternalLink } from '@/components/Link/ExternalLink';
+import { Typography } from '@/components/Typography/Typography';
 
 type Props = {
   currentPath: string;
@@ -24,18 +26,25 @@ export const Header = ({ currentPath }: Props): React.ReactElement => {
 
   return (
     <>
-      <header className="sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-lg">
-        <div className="relative flex justify-between items-center px-3 py-3 sp:py-6 border-b-2 border-foreground-light dark:border-foreground-dark">
+      <header className="sticky top-0 z-50 bg-background-light/80 backdrop-blur-lg dark:bg-background-dark/80">
+        <div className="relative flex items-center justify-between border-b-2 border-foreground-light px-3 py-3 dark:border-foreground-dark sp:py-6">
           {/* Left */}
-          <Link href="/" className="flex items-center gap-1">
+          <Link
+            className="flex items-center gap-1"
+            href="/"
+          >
             <HeaderLogo priority />
-            <Typography as="h1" variant="logo-text" className="font-bold">
+            <Typography
+              as="h1"
+              className="font-bold"
+              variant="logo-text"
+            >
               STUDIO-TAP
             </Typography>
           </Link>
 
           {/* Center (PC nav) */}
-          <div className="hidden sm:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <div className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 sm:block">
             <HeaderNav currentPath={currentPath} />
           </div>
 
@@ -44,25 +53,35 @@ export const Header = ({ currentPath }: Props): React.ReactElement => {
             <div className="hidden sm:block">
               <ThemeSwitcher />
             </div>
-            <div className="sm:hidden flex item-center">
-              <HamburgerIcon isOpen={isOpen} onClick={() => setIsOpen(!isOpen)} />
+            <div className="item-center flex sm:hidden">
+              <HamburgerIcon
+                isOpen={isOpen}
+                onClick={() => setIsOpen(!isOpen)}
+              />
             </div>
           </div>
-
         </div>
       </header>
 
       {/* SP Menu Overlay */}
       {isOpen && (
-        <div className="sm:hidden fixed inset-0 bg-background-light dark:bg-background-dark z-40 flex flex-col items-center justify-between py-12">
+        <div className="fixed inset-0 z-40 flex flex-col items-center justify-between bg-background-light py-12 dark:bg-background-dark sm:hidden">
           {/* Main Navigation */}
-          <div className="flex flex-col items-center gap-8 flex-1 justify-center">
-            <HeaderNav isMobile currentPath={currentPath} />
+          <div className="flex flex-1 flex-col items-center justify-center gap-8">
+            <HeaderNav
+              currentPath={currentPath}
+              isMobile
+            />
 
             {/* Contact Links */}
-            <div className="flex flex-col items-center gap-2 mt-4">
-              <Typography as="p" variant="body-normal" className="font-light">
-                Email: <BaseLink href="mailto:camphora@studio-tap.com">camphora@studio-tap.com</BaseLink><br />
+            <div className="mt-4 flex flex-col items-center gap-2">
+              <Typography
+                as="p"
+                className="font-light"
+                variant="body-normal"
+              >
+                Email: <BaseLink href="mailto:camphora@studio-tap.com">camphora@studio-tap.com</BaseLink>
+                <br />
                 Form: <ExternalLink href="https://forms.gle/1iG7xoAD34fJ8hjy5">Google Form</ExternalLink>
               </Typography>
             </div>
@@ -76,7 +95,11 @@ export const Header = ({ currentPath }: Props): React.ReactElement => {
           {/* Site Logo & Name */}
           <div className="flex flex-col items-center gap-2">
             <HeaderLogo />
-            <Typography as="p" variant="logo-text" className="font-bold">
+            <Typography
+              as="p"
+              className="font-bold"
+              variant="logo-text"
+            >
               STUDIO-TAP
             </Typography>
           </div>

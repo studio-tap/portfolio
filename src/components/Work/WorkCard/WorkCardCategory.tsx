@@ -1,6 +1,7 @@
-import type { ReactElement } from 'react';
-import type { Category } from '@/lib/microcms';
 import { WorkCardMetaItem } from './WorkCardMetaItem';
+
+import type { Category } from '@/lib/microcms';
+import type { ReactElement } from 'react';
 
 type Props = {
   category: Category;

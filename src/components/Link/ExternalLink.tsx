@@ -1,6 +1,8 @@
 import React from 'react';
+
 import { BaseLink } from './BaseLink';
-import { ComponentProps } from 'react';
+
+import type { ComponentProps } from 'react';
 
 type ExternalLinkProps = Omit<ComponentProps<typeof BaseLink>, 'target' | 'rel'>;
 
@@ -8,11 +10,17 @@ export const ExternalLink = ({ children, className = '', ...props }: ExternalLin
   return (
     <BaseLink
       {...props}
-      target="_blank"
+      className={`inline-flex items-center gap-1 ${className}`}
       rel="noopener noreferrer"
-      className={`inline-flex items-center gap-1 ${className}`}>
+      target="_blank"
+    >
       <span>{children}</span>
-      <span style={{ fontFamily: 'PlemolJP Icons' }} className="ml-1"></span>
+      <span
+        className="ml-1"
+        style={{ fontFamily: 'PlemolJP Icons' }}
+      >
+        
+      </span>
     </BaseLink>
   );
 };

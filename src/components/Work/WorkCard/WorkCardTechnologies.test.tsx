@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
 import { WorkCardTechnologies } from './WorkCardTechnologies';
 
 describe('WorkCardTechnologies', () => {
@@ -32,6 +32,4 @@ describe('WorkCardTechnologies', () => {
     const reactElement = screen.getByText('React');
     expect(reactElement.tagName).toBe('LI');
   });
-
-
 });

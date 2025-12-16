@@ -1,4 +1,5 @@
 import type { ReactElement } from 'react';
+
 import { ExternalLink } from '@/components/Link/ExternalLink';
 import { Typography } from '@/components/Typography/Typography';
 
@@ -12,7 +13,12 @@ export const WorkCardLink = ({ url }: Props): ReactElement | null => {
   }
 
   return (
-    <Typography as={ExternalLink} href={url} variant="body-normal" className="inline-block">
+    <Typography
+      as={ExternalLink}
+      className="inline-block"
+      href={url}
+      variant="body-normal"
+    >
       VIEW SITE
     </Typography>
   );

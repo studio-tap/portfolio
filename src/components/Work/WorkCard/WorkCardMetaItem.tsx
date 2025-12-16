@@ -1,4 +1,5 @@
 import type { ReactElement, ReactNode } from 'react';
+
 import { Typography } from '@/components/Typography/Typography';
 
 type Props = {
@@ -9,7 +10,11 @@ type Props = {
 
 export const WorkCardMetaItem = ({ children, as = 'p', className }: Props): ReactElement => {
   return (
-    <Typography as={as} variant="card-meta" className={`border-b border-foreground-light dark:border-foreground-dark mt-2 ${className}`}>
+    <Typography
+      as={as}
+      className={`mt-2 border-b border-foreground-light dark:border-foreground-dark ${className}`}
+      variant="card-meta"
+    >
       {children}
     </Typography>
   );

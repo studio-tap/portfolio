@@ -1,10 +1,12 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
+import React, { useEffect, useState } from 'react';
+
 import { ToggleSwitch } from './ToggleSwitch';
-import { SunIcon } from '@/components/icons/SunIcon';
+
 import { MoonIcon } from '@/components/icons/MoonIcon';
+import { SunIcon } from '@/components/icons/SunIcon';
 
 export const ThemeSwitcher = (): React.ReactElement => {
   const { setTheme, resolvedTheme } = useTheme();
@@ -27,11 +29,11 @@ export const ThemeSwitcher = (): React.ReactElement => {
       <SunIcon className="text-orange dark:text-inactive" />
 
       <ToggleSwitch
-        className="mx-1"
-        checked={isDarkMode}
-        onChange={handleToggleChange}
         ariaLabel="ダークモード切り替え"
+        checked={isDarkMode}
+        className="mx-1"
         disabled={!mounted}
+        onChange={handleToggleChange}
       />
 
       <MoonIcon className="text-inactive dark:text-navy" />

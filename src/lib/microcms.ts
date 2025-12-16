@@ -1,4 +1,10 @@
-import { createClient, type MicroCMSDate, type MicroCMSImage, type MicroCMSListResponse, type MicroCMSQueries } from 'microcms-js-sdk';
+import {
+  createClient,
+  type MicroCMSDate,
+  type MicroCMSImage,
+  type MicroCMSListResponse,
+  type MicroCMSQueries,
+} from 'microcms-js-sdk';
 
 const serviceDomain = process.env.MICROCMS_SERVICE_DOMAIN;
 const apiKey = process.env.MICROCMS_API_KEY;
@@ -30,7 +36,6 @@ export type Technology = {
   name: string;
 } & MicroCMSDate;
 
-
 // 作品の型定義
 export type Work = {
   id: string;
@@ -48,7 +53,7 @@ export type Work = {
 // 作品一覧を取得する関数
 export const getWorks = async (queries?: MicroCMSQueries): Promise<MicroCMSListResponse<Work>> => {
   const data = await client.getList<Work>({
-    endpoint: "works",
+    endpoint: 'works',
     queries,
   });
 

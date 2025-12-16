@@ -2,10 +2,7 @@
 const plugin = require('tailwindcss/plugin');
 
 module.exports = {
-  content: [
-    './app/**/*.{js,ts,jsx,tsx,mdx}',
-    './components/**/*.{js,ts,jsx,tsx,mdx}',
-  ],
+  content: ['./app/**/*.{js,ts,jsx,tsx,mdx}', './components/**/*.{js,ts,jsx,tsx,mdx}'],
   darkMode: 'class',
   theme: {
     screens: {
@@ -19,28 +16,28 @@ module.exports = {
     },
     extend: {
       fontSize: {
-        'xs': '0.75rem',    // 12px
-        's': '0.875rem',   // 14px
-        'm': '1rem',       // 16px
-        'l': '1.125rem',   // 18px
-        'xl': '1.25rem',   // 20px
-        '2xl': '1.5rem',   // 24px
+        'xs': '0.75rem', // 12px
+        's': '0.875rem', // 14px
+        'm': '1rem', // 16px
+        'l': '1.125rem', // 18px
+        'xl': '1.25rem', // 20px
+        '2xl': '1.5rem', // 24px
         '3xl': '1.875rem', // 30px
       },
       letterSpacing: {
-        'none': '0em',
-        'tight': '0.025em',
-        'normal': '0.05em',
-        'wide': '0.1em',
-        'wider': '0.2em',
-        'full': '1em', // 1文字分
+        none: '0em',
+        tight: '0.025em',
+        normal: '0.05em',
+        wide: '0.1em',
+        wider: '0.2em',
+        full: '1em', // 1文字分
       },
       lineHeight: {
-        'none': 1,
-        'tight': 1.25,
-        'normal': 1.5,
-        'relaxed': 1.75,
-        'loose': 2,
+        none: 1,
+        tight: 1.25,
+        normal: 1.5,
+        relaxed: 1.75,
+        loose: 2,
       },
       colors: {
         transparent: 'transparent',
@@ -85,12 +82,12 @@ module.exports = {
   },
   plugins: [
     require('@tailwindcss/typography'),
-    plugin(function({ addComponents, matchUtilities, theme }) {
+    plugin(function ({ addComponents, matchUtilities, theme }) {
       // │▌`hover-opacity-{value}` のような動的なユーティリティを作る設定
       matchUtilities(
         {
           'hover-opacity': (value) => ({
-            transition: 'opacity',
+            'transition': 'opacity',
             '&:hover': {
               opacity: value,
             },
@@ -101,21 +98,21 @@ module.exports = {
             weak: '0.9',
             medium: '0.7',
             strong: '0.5',
-          }
+          },
         }
       );
 
       // │▌`.link-base` のような再利用可能なコンポーネントクラスを作る設定
       addComponents({
         '.link-base': {
-          fontWeight: theme('fontWeight.medium'),
-          color: theme('colors.blue.400'),
+          'fontWeight': theme('fontWeight.medium'),
+          'color': theme('colors.blue.400'),
           '&:hover': {
             textDecoration: 'underline',
             color: theme('colors.blue.300'),
           },
-        }
+        },
       });
-    })
+    }),
   ],
-}
+};

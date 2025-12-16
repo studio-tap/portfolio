@@ -1,7 +1,7 @@
-import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
-import { WorkCard } from './WorkCard';
 import type { Work } from '@/lib/microcms';
+import { render, screen } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
+import { WorkCard } from './WorkCard';
 
 describe('WorkCard 統合テスト', () => {
   const mockWork: Work = {

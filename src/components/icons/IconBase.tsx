@@ -7,9 +7,5 @@ type IconBaseProps = {
 };
 
 export const IconBase = ({ children, className, size = 'text-m' }: IconBaseProps): React.ReactElement => {
-  return (
-    <span className={`${size} leading-none ${className}`}>
-      {children}
-    </span>
-  );
+  return <span className={`${size} leading-none ${className}`}>{children}</span>;
 };

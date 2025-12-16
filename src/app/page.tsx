@@ -1,7 +1,7 @@
-import { getWorks } from "@/lib/microcms";
-import { MainInner } from "@/components/layout/MainInner";
-import { WorksMasonry } from "@/components/Work/WorksMasonry";
-import { Header } from "@/components/Header/Header";
+import { Header } from '@/components/Header/Header';
+import { MainInner } from '@/components/layout/MainInner';
+import { WorksMasonry } from '@/components/Work/WorksMasonry';
+import { getWorks } from '@/lib/microcms';
 
 export const revalidate = 3600; // 1時間ごとに再検証
 
@@ -15,7 +15,7 @@ export default async function Home() {
   return (
     <>
       <Header currentPath={CURRENT_PATH} />
-      <main className="flex-1 flex flex-col">
+      <main className="flex flex-1 flex-col">
         <MainInner>
           <WorksMasonry works={works} />
         </MainInner>

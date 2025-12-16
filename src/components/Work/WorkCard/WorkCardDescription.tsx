@@ -1,5 +1,6 @@
-import type { ReactElement } from 'react';
 import parse from 'html-react-parser';
+
+import type { ReactElement } from 'react';
 
 type Props = {
   description?: string;
@@ -10,9 +11,5 @@ export const WorkCardDescription = ({ description }: Props): ReactElement | null
     return null;
   }
 
-  return (
-    <div className="prose dark:prose-invert">
-      {parse(description)}
-    </div>
-  );
+  return <div className="prose dark:prose-invert">{parse(description)}</div>;
 };

@@ -47,7 +47,6 @@
   font-display: swap;
 }
 
-
 @layer base {
   body {
     /* PlemolJP優先、フォールバックにGoogle Fonts */

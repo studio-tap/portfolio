@@ -15,7 +15,7 @@ export const HamburgerIcon = ({ isOpen, className, ...rest }: Props) => {
   const middleY = topY + (lineThickness + topY);
   const bottomY = middleY + (lineThickness + topY);
 
-  const crossScale = 1 / 1.4142135623730951 ;
+  const crossScale = 1 / 1.4142135623730951;
 
   const topWidth = containerPx;
   const middleWidth = topWidth * crossScale;
@@ -23,7 +23,7 @@ export const HamburgerIcon = ({ isOpen, className, ...rest }: Props) => {
 
   // 中心
   const centerY = (containerPx - lineThickness) / 2;
-  const crossBottomOffset = (containerPx - (bottomWidth / 2)) - (containerPx / 2)
+  const crossBottomOffset = containerPx - bottomWidth / 2 - containerPx / 2;
 
   // --- スタイル定義 ---
   const baseLineStyle: React.CSSProperties = {
@@ -40,8 +40,9 @@ export const HamburgerIcon = ({ isOpen, className, ...rest }: Props) => {
     left: '0px',
     width: `${topWidth}px`,
     transformOrigin: 'center',
-    transform: isOpen
-      ? `translateY(${centerY - topY}px) rotate(45deg) scaleX(${crossScale})`
+    transform:
+      isOpen ?
+        `translateY(${centerY - topY}px) rotate(45deg) scaleX(${crossScale})`
       : 'translate(0) scaleX(1) rotate(0deg)',
   };
 
@@ -52,9 +53,7 @@ export const HamburgerIcon = ({ isOpen, className, ...rest }: Props) => {
     width: `${middleWidth}px`,
     transformOrigin: 'right',
     opacity: isOpen ? 0 : 1,
-    transform: isOpen
-    ? `scaleX(${topWidth / middleWidth})`
-    : `scaleX(1)`
+    transform: isOpen ? `scaleX(${topWidth / middleWidth})` : `scaleX(1)`,
   };
 
   const bottomLineStyle: React.CSSProperties = {
@@ -63,15 +62,16 @@ export const HamburgerIcon = ({ isOpen, className, ...rest }: Props) => {
     right: '0px',
     width: `${bottomWidth}px`,
     transformOrigin: 'center',
-    transform: isOpen
-      ? `translate(${-crossBottomOffset}px, ${centerY - bottomY}px) rotate(-45deg) scaleX(${middleWidth / bottomWidth})`
+    transform:
+      isOpen ?
+        `translate(${-crossBottomOffset}px, ${centerY - bottomY}px) rotate(-45deg) scaleX(${middleWidth / bottomWidth})`
       : 'translate(0) scaleX(1) rotate(0deg)',
   };
 
   return (
     <button
-      className={`relative w-6 h-6 focus:outline-none ${className}`}
       aria-label={isOpen ? 'メニューを閉じる' : 'メニューを開く'}
+      className={`relative h-6 w-6 focus:outline-none ${className}`}
       {...rest}
     >
       {/* 上の線 */}

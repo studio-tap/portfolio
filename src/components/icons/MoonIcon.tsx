@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { ThemeIcon } from './ThemeIcon';
 
 type MoonIconProps = {

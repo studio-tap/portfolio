@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { HeaderNavigationItem } from './HeaderNavigationItem';
 
 type NavItem = {
@@ -12,7 +13,6 @@ type Props = {
 };
 
 export const HeaderNav = ({ currentPath, isMobile = false }: Props): React.ReactElement => {
-
   const navItems: NavItem[] = [
     { href: '/', text: 'WORKS' },
     { href: '/about', text: 'ABOUT' },
@@ -25,8 +25,8 @@ export const HeaderNav = ({ currentPath, isMobile = false }: Props): React.React
           <HeaderNavigationItem
             key={item.href}
             href={item.href}
-            text={item.text}
             isActive={currentPath === item.href}
+            text={item.text}
           />
         ))}
       </ul>

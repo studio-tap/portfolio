@@ -354,7 +354,7 @@ const eslintConfig = [
       'max-depth': ['warn', 6],
 
       // ファイルの行数制限
-      // 300行を超えるファイルを警告
+      // 1000行を超えるファイルを警告
       'max-lines': [
         'warn',
         {

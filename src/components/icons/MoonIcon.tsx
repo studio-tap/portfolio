@@ -1,3 +1,4 @@
+import { clsx } from 'clsx';
 import React from 'react';
 
 import { ThemeIcon } from './ThemeIcon';
@@ -8,8 +9,12 @@ type MoonIconProps = {
 
 export const MoonIcon = ({ className }: MoonIconProps): React.ReactElement => {
   return (
-    <ThemeIcon className={className}>
-      <span style={{ fontFamily: 'PlemolJP Icons' }}></span>
+    <ThemeIcon className={clsx('text-inactive dark:text-navy', className)}>
+      <span
+        style={{ fontFamily: 'PlemolJP Icons' }}
+      >
+        
+      </span>
     </ThemeIcon>
   );
 };

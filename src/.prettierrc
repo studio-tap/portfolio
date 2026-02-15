@@ -21,5 +21,9 @@
     "prettier-plugin-organize-imports",
     "prettier-plugin-tailwindcss"
   ],
-  "tailwindFunctions": ["clsx", "cn", "classNames"]
+  "tailwindFunctions": [
+    "clsx",
+    "cn",
+    "classNames"
+  ]
 }
